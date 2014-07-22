@@ -14,7 +14,6 @@
 		89A82FFB197E09B000E3BDF3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A82FFA197E09B000E3BDF3 /* main.m */; };
 		89A82FFF197E09B000E3BDF3 /* DLGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A82FFE197E09B000E3BDF3 /* DLGAppDelegate.m */; };
 		89A83002197E09B000E3BDF3 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89A83000197E09B000E3BDF3 /* Main_iPhone.storyboard */; };
-		89A83005197E09B000E3BDF3 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89A83003197E09B000E3BDF3 /* Main_iPad.storyboard */; };
 		89A83008197E09B000E3BDF3 /* DLGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83007197E09B000E3BDF3 /* DLGViewController.m */; };
 		89A8300A197E09B000E3BDF3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89A83009197E09B000E3BDF3 /* Images.xcassets */; };
 		89A83011197E09B000E3BDF3 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A83010197E09B000E3BDF3 /* XCTest.framework */; };
@@ -22,6 +21,14 @@
 		89A83013197E09B000E3BDF3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A82FF2197E09B000E3BDF3 /* UIKit.framework */; };
 		89A8301B197E09B000E3BDF3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89A83019197E09B000E3BDF3 /* InfoPlist.strings */; };
 		89A8301D197E09B000E3BDF3 /* Day_LogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8301C197E09B000E3BDF3 /* Day_LogTests.m */; };
+		89A83028197E0B7500E3BDF3 /* DLGTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83027197E0B7500E3BDF3 /* DLGTableViewCell.m */; };
+		89A8302E197EB72300E3BDF3 /* DLGCoreDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8302D197EB72300E3BDF3 /* DLGCoreDataHelper.m */; };
+		89A83031197EB76900E3BDF3 /* DLGDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83030197EB76900E3BDF3 /* DLGDataSource.m */; };
+		89A83034197EB82300E3BDF3 /* DLGModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 89A83032197EB82300E3BDF3 /* DLGModel.xcdatamodeld */; };
+		89A8303A197EB8D000E3BDF3 /* LogItem+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83039197EB8D000E3BDF3 /* LogItem+Helpers.m */; };
+		89A8303D197EBBA300E3BDF3 /* DLGNewEntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8303C197EBBA300E3BDF3 /* DLGNewEntryViewController.m */; };
+		89A83043197EC77D00E3BDF3 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83042197EC77D00E3BDF3 /* Note.m */; };
+		89A83046197EC77E00E3BDF3 /* LogItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83045197EC77E00E3BDF3 /* LogItem.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +53,6 @@
 		89A82FFD197E09B000E3BDF3 /* DLGAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLGAppDelegate.h; sourceTree = "<group>"; };
 		89A82FFE197E09B000E3BDF3 /* DLGAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLGAppDelegate.m; sourceTree = "<group>"; };
 		89A83001197E09B000E3BDF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
-		89A83004197E09B000E3BDF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		89A83006197E09B000E3BDF3 /* DLGViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLGViewController.h; sourceTree = "<group>"; };
 		89A83007197E09B000E3BDF3 /* DLGViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLGViewController.m; sourceTree = "<group>"; };
 		89A83009197E09B000E3BDF3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -55,6 +61,21 @@
 		89A83018197E09B000E3BDF3 /* Day LogTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Day LogTests-Info.plist"; sourceTree = "<group>"; };
 		89A8301A197E09B000E3BDF3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		89A8301C197E09B000E3BDF3 /* Day_LogTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Day_LogTests.m; sourceTree = "<group>"; };
+		89A83026197E0B7500E3BDF3 /* DLGTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGTableViewCell.h; sourceTree = "<group>"; };
+		89A83027197E0B7500E3BDF3 /* DLGTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGTableViewCell.m; sourceTree = "<group>"; };
+		89A8302C197EB72300E3BDF3 /* DLGCoreDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGCoreDataHelper.h; sourceTree = "<group>"; };
+		89A8302D197EB72300E3BDF3 /* DLGCoreDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGCoreDataHelper.m; sourceTree = "<group>"; };
+		89A8302F197EB76900E3BDF3 /* DLGDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGDataSource.h; sourceTree = "<group>"; };
+		89A83030197EB76900E3BDF3 /* DLGDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGDataSource.m; sourceTree = "<group>"; };
+		89A83033197EB82300E3BDF3 /* DLGModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DLGModel.xcdatamodel; sourceTree = "<group>"; };
+		89A83038197EB8D000E3BDF3 /* LogItem+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LogItem+Helpers.h"; sourceTree = "<group>"; };
+		89A83039197EB8D000E3BDF3 /* LogItem+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LogItem+Helpers.m"; sourceTree = "<group>"; };
+		89A8303B197EBBA300E3BDF3 /* DLGNewEntryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGNewEntryViewController.h; sourceTree = "<group>"; };
+		89A8303C197EBBA300E3BDF3 /* DLGNewEntryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGNewEntryViewController.m; sourceTree = "<group>"; };
+		89A83041197EC77D00E3BDF3 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
+		89A83042197EC77D00E3BDF3 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
+		89A83044197EC77E00E3BDF3 /* LogItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogItem.h; sourceTree = "<group>"; };
+		89A83045197EC77E00E3BDF3 /* LogItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogItem.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,10 +137,8 @@
 			children = (
 				89A82FFD197E09B000E3BDF3 /* DLGAppDelegate.h */,
 				89A82FFE197E09B000E3BDF3 /* DLGAppDelegate.m */,
-				89A83000197E09B000E3BDF3 /* Main_iPhone.storyboard */,
-				89A83003197E09B000E3BDF3 /* Main_iPad.storyboard */,
-				89A83006197E09B000E3BDF3 /* DLGViewController.h */,
-				89A83007197E09B000E3BDF3 /* DLGViewController.m */,
+				89A83048197EC7CB00E3BDF3 /* Views */,
+				89A83047197EC7C200E3BDF3 /* Data */,
 				89A83009197E09B000E3BDF3 /* Images.xcassets */,
 				89A82FF5197E09B000E3BDF3 /* Supporting Files */,
 			);
@@ -153,6 +172,38 @@
 				89A83019197E09B000E3BDF3 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		89A83047197EC7C200E3BDF3 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				89A8302F197EB76900E3BDF3 /* DLGDataSource.h */,
+				89A83030197EB76900E3BDF3 /* DLGDataSource.m */,
+				89A8302C197EB72300E3BDF3 /* DLGCoreDataHelper.h */,
+				89A8302D197EB72300E3BDF3 /* DLGCoreDataHelper.m */,
+				89A83032197EB82300E3BDF3 /* DLGModel.xcdatamodeld */,
+				89A83044197EC77E00E3BDF3 /* LogItem.h */,
+				89A83045197EC77E00E3BDF3 /* LogItem.m */,
+				89A83041197EC77D00E3BDF3 /* Note.h */,
+				89A83042197EC77D00E3BDF3 /* Note.m */,
+				89A83038197EB8D000E3BDF3 /* LogItem+Helpers.h */,
+				89A83039197EB8D000E3BDF3 /* LogItem+Helpers.m */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		89A83048197EC7CB00E3BDF3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				89A83000197E09B000E3BDF3 /* Main_iPhone.storyboard */,
+				89A83026197E0B7500E3BDF3 /* DLGTableViewCell.h */,
+				89A83027197E0B7500E3BDF3 /* DLGTableViewCell.m */,
+				89A83006197E09B000E3BDF3 /* DLGViewController.h */,
+				89A83007197E09B000E3BDF3 /* DLGViewController.m */,
+				89A8303B197EBBA300E3BDF3 /* DLGNewEntryViewController.h */,
+				89A8303C197EBBA300E3BDF3 /* DLGNewEntryViewController.m */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,7 +283,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89A83005197E09B000E3BDF3 /* Main_iPad.storyboard in Resources */,
 				89A8300A197E09B000E3BDF3 /* Images.xcassets in Resources */,
 				89A83002197E09B000E3BDF3 /* Main_iPhone.storyboard in Resources */,
 				89A82FF9197E09B000E3BDF3 /* InfoPlist.strings in Resources */,
@@ -254,9 +304,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89A83046197EC77E00E3BDF3 /* LogItem.m in Sources */,
+				89A83031197EB76900E3BDF3 /* DLGDataSource.m in Sources */,
 				89A83008197E09B000E3BDF3 /* DLGViewController.m in Sources */,
+				89A8303D197EBBA300E3BDF3 /* DLGNewEntryViewController.m in Sources */,
+				89A83034197EB82300E3BDF3 /* DLGModel.xcdatamodeld in Sources */,
 				89A82FFF197E09B000E3BDF3 /* DLGAppDelegate.m in Sources */,
 				89A82FFB197E09B000E3BDF3 /* main.m in Sources */,
+				89A83028197E0B7500E3BDF3 /* DLGTableViewCell.m in Sources */,
+				89A8303A197EB8D000E3BDF3 /* LogItem+Helpers.m in Sources */,
+				89A8302E197EB72300E3BDF3 /* DLGCoreDataHelper.m in Sources */,
+				89A83043197EC77D00E3BDF3 /* Note.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,14 +351,6 @@
 				89A83001197E09B000E3BDF3 /* Base */,
 			);
 			name = Main_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		89A83003197E09B000E3BDF3 /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				89A83004197E09B000E3BDF3 /* Base */,
-			);
-			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		89A83019197E09B000E3BDF3 /* InfoPlist.strings */ = {
@@ -481,6 +531,19 @@
 			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		89A83032197EB82300E3BDF3 /* DLGModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				89A83033197EB82300E3BDF3 /* DLGModel.xcdatamodel */,
+			);
+			currentVersion = 89A83033197EB82300E3BDF3 /* DLGModel.xcdatamodel */;
+			path = DLGModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 89A82FE3197E09B000E3BDF3 /* Project object */;
 }

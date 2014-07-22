@@ -7,8 +7,12 @@
 //
 
 #import "DLGViewController.h"
+#import "DLGTableViewCell.h"
+#import "DLGDataSource.h"
+#import "LogItem+Helpers.h"
+#import "Note.h"
 
-@interface DLGViewController ()
+@interface DLGViewController () <UITableViewDelegate>
 
 @end
 
@@ -18,12 +22,23 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    self.tableView.delegate = self;
+    self.tableView.dataSource = [DLGDataSource data];
 }
 
-- (void)didReceiveMemoryWarning
+-(void)viewDidAppear:(BOOL)animated
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [super viewDidAppear:animated];
+    NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
+    [self.tableView reloadData];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    LogItem *item = [[[DLGDataSource data] logEntries] objectAtIndex:indexPath.row];
+    CGFloat dateHeight = 120;
+    CGFloat noteHeight = [item.note.contents boundingRectWithSize:self.view.frame.size options:NSStringDrawingUsesDeviceMetrics attributes:nil context:nil].size.height;
+    return dateHeight+noteHeight;
 }
 
 @end
