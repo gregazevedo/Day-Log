@@ -10,4 +10,6 @@
 
 @interface DLGDateHeader : UICollectionReusableView
 
+@property (nonatomic) NSString *title;
+
 @end

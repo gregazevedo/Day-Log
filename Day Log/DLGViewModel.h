@@ -10,15 +10,24 @@
 
 @protocol DLGViewModel <NSObject>
 
--(void)loadLatestNotes;
--(void)loadMoreNotes_Amount:(NSInteger)amount;
+-(void)fetchNotesForToday;
+-(void)fetchNotesForDay:(NSDate *)day;
+-(void)fetchOneMoreWeekOfNotes;
+
+//-(void)loadLatestNotes;
+//-(void)loadMoreNotes_Amount:(NSInteger)amount;
+
 -(NSUInteger)numberOfItemsInSection:(NSUInteger)section;
+-(NSUInteger)numberOfSections;
+
 -(NSString *)contentsForIndexPath:(NSIndexPath *)indexPath;
--(NSIndexPath *)lastIndex;
+
 -(void)updateContentsForIndexPath:(NSIndexPath *)indexPath withContents:(NSString *)contents;
 -(void)insertNewEntryAtIndexPath:(NSIndexPath *)indexPath;
 -(void)removeEntryAtIndexPath:(NSIndexPath *)indexPath;
 -(void)saveChanges;
+
+-(NSIndexPath *)lastIndex;
 
 @end
 
@@ -27,6 +36,7 @@
 
 -(CGSize)sizeForIndexPath:(NSIndexPath *)indexPath;
 -(CGSize)averageItemSize;
+-(CGSize)headerSize;
 
 //-(CGSize)itemSize;
 //-(CGSize)titleSize;

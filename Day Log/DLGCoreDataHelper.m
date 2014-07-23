@@ -61,6 +61,18 @@ static NSString *storeFilename = @"Day_Log.sqlite";
 - (void)setupCoreData
 {
     [self loadStore];
+    [self setStringsDefaultToEmptyStrings];
+}
+
+-(void)setStringsDefaultToEmptyStrings
+{
+    NSEntityDescription *entityDescription = [[_model entitiesByName] objectForKey:@"Entity"];
+    for (NSString *attributeName in [entityDescription attributesByName]) {
+        NSAttributeDescription *attributeDesc = [[entityDescription attributesByName] objectForKey:attributeName];
+        if ([attributeDesc attributeType] == NSStringAttributeType) {
+            [attributeDesc setDefaultValue:@""];
+        }
+    }
 }
 
 -(void)setupCoreDataForTesting

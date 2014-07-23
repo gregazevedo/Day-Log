@@ -10,7 +10,7 @@
 
 @interface DLGDateHeader ()
 
-@property (nonatomic) UILabel *dateLabel;
+@property (nonatomic) UILabel *titleLabel;
 
 @end
 
@@ -21,8 +21,20 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        self.titleLabel = [[UILabel alloc]initWithFrame:self.bounds];
+        [self addSubview:self.titleLabel];
     }
     return self;
+}
+
+-(void)setTitle:(NSString *)title
+{
+    self.titleLabel.text = title;
+}
+
+-(NSString *)title
+{
+    return self.titleLabel.text;
 }
 
 @end

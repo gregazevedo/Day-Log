@@ -1,14 +1,14 @@
 //
-//  NSDate+Comparisons.m
+//  NSDate+Utility.m
 //  Day Log
 //
 //  Created by Greg Azevedo on 7/23/14.
 //  Copyright (c) 2014 dolodev LLC. All rights reserved.
 //
 
-#import "NSDate+Comparisons.h"
+#import "NSDate+Utility.h"
 
-@implementation NSDate (Comparisons)
+@implementation NSDate (Utility)
 
 - (NSComparisonResult)compareDay:(NSDate *)otherDate
 {
@@ -25,9 +25,15 @@
 //today at midnight
 +(NSDate *)today
 {
-    NSDate *date = [NSDate date];
-    //set
-    return date;
+    NSCalendar *currentCalendar = [NSCalendar currentCalendar];
+    NSInteger curDay = [currentCalendar  ordinalityOfUnit:NSDayCalendarUnit inUnit:NSYearCalendarUnit forDate:[NSDate date]];
+    NSInteger curYear = [currentCalendar  ordinalityOfUnit:NSYearCalendarUnit inUnit:NSEraCalendarUnit forDate:[NSDate date]];
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    [dateComponents setYear:curYear];
+    [dateComponents setDay:curDay];
+    NSDate *today = [currentCalendar dateFromComponents:dateComponents];
+    NSLog(@"today is: %f",[today timeIntervalSince1970]);
+    return today;
 }
 
 @end

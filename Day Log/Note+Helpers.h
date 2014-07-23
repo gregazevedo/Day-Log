@@ -10,8 +10,12 @@
 
 @interface Note (Helpers)
 
-+(Note *)insertNoteWithDate:(NSDate *)date andText:(NSString *)text;
++(Note *)insertNoteForDay:(Day *)day andText:(NSString *)text;
++(Note *)insertNoteWithText:(NSString *)text;
+
 +(NSArray *)allNotesFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
 +(NSArray *)allNotes;
 +(NSArray *)allNotes_Max:(NSUInteger)maxFetchCount;
++(NSArray *)fetch:(NSInteger)amount notesWithController:(NSFetchedResultsController *)fetcher;
+
 @end

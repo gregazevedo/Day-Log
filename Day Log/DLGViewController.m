@@ -28,7 +28,8 @@
 {
     [super loadView];
     self.navigationItem.title = @"Day Log";
-    [self.viewModel loadLatestNotes];
+    [self.viewModel fetchNotesForToday];
+//    [self.viewModel loadLatestNotes];
     [self loadCollectionView];
 }
 
@@ -65,6 +66,18 @@
     return [self.viewModel numberOfItemsInSection:section];
 }
 
+-(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    DLGDateHeader *header = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Header" forIndexPath:indexPath];
+    header.title = @"yayaayay";
+    return header;
+}
+
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return [self.viewModel numberOfSections];
+}
+
 #pragma mark - COLLECTION VIEW DELEGATE METHODS
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -81,30 +94,26 @@
 {
     UICollectionView *cv = (UICollectionView *)scrollView;
     NSIndexPath *indexPath = [[cv indexPathsForSelectedItems] firstObject];
-    DLGCell *cell = (DLGCell *)[cv cellForItemAtIndexPath:indexPath];
-    if (cell) {
-        [self.viewModel updateContentsForIndexPath:indexPath withContents:cell.contents];
-        [cell.contentsTextView resignFirstResponder];
-        [self.viewModel saveChanges];
-    }
+    [self moveSelectionFromIndexPath:indexPath toIndexPath:nil];
 }
 
 -(void)removeEmptyEntry
 {
     NSIndexPath *index = [[self.collectionView indexPathsForSelectedItems] firstObject];
-    if (index.row > 1) {
+    if (index.row > 0) {
         NSLog(@"removing from selected: %@",[self.collectionView indexPathsForSelectedItems]);
         NSIndexPath *prevIndex = [NSIndexPath indexPathForItem:index.row-1 inSection:index.section];
         [self moveSelectionFromIndexPath:index toIndexPath:prevIndex];
         [self.viewModel removeEntryAtIndexPath:index];
         [self.collectionView deleteItemsAtIndexPaths:@[index]];
-    } else if (index.row == 1) {
-        NSLog(@"removing from selected: %@",[self.collectionView indexPathsForSelectedItems]);
-        NSIndexPath *prevIndex = [NSIndexPath indexPathForItem:0 inSection:index.section];
-        [self moveSelectionFromIndexPath:index toIndexPath:prevIndex];
-        [self.viewModel removeEntryAtIndexPath:index];
-        [self.collectionView deleteItemsAtIndexPaths:@[index]];
     }
+//    else if (index.row == 1) {
+//        NSLog(@"removing from selected: %@",[self.collectionView indexPathsForSelectedItems]);
+//        NSIndexPath *prevIndex = [NSIndexPath indexPathForItem:0 inSection:index.section];
+//        [self moveSelectionFromIndexPath:index toIndexPath:prevIndex];
+//        [self.viewModel removeEntryAtIndexPath:index];
+//        [self.collectionView deleteItemsAtIndexPaths:@[index]];
+//    }
 }
 
 -(void)insertNewEntry
@@ -122,6 +131,7 @@
     if (toDeselect) {
         DLGCell *oldCell = (DLGCell *)[self.collectionView cellForItemAtIndexPath:toDeselect];
         [self.viewModel updateContentsForIndexPath:toDeselect withContents:oldCell.contents];
+        [self.viewModel saveChanges];
         [oldCell.contentsTextView resignFirstResponder];
         [self.collectionView deselectItemAtIndexPath:toDeselect animated:YES];
         latestCursorPosition = 0;

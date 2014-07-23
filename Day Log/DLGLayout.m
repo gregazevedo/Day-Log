@@ -40,14 +40,22 @@
     
     NSMutableDictionary *layoutInformation = [NSMutableDictionary dictionary];
     NSMutableDictionary *cellInformation = [NSMutableDictionary dictionary];
+    NSMutableDictionary *headerInformation = [NSMutableDictionary dictionary];
     
     NSIndexPath *indexPath;
-    NSInteger numItems = [self.collectionView numberOfItemsInSection:0];
-    for(NSInteger item = 0; item < numItems; item++){
+    
+    
+    NSInteger numSections = [self.collectionView numberOfSections];
+    for(NSInteger section = 0; section < numSections; section++) {
+        UICollectionViewLayoutAttributes *headerAttributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:@"Header" withIndexPath:indexPath];
+        [headerInformation setObject:headerAttributes forKey:@"headerInfo"];
         
-        indexPath = [NSIndexPath indexPathForItem:item inSection:0];
-        UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForItemAtIndexPath:indexPath];
-        [cellInformation setObject:attributes forKey:indexPath];
+        NSInteger numItemsInSection = [self.collectionView numberOfItemsInSection:section];
+        for(NSInteger item = 0; item < numItemsInSection; item++) {
+            indexPath = [NSIndexPath indexPathForItem:item inSection:section];
+            UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForItemAtIndexPath:indexPath];
+            [cellInformation setObject:attributes forKey:indexPath];
+        }
     }
     [layoutInformation setObject:cellInformation forKey:@"cellInfo"];
     self.layoutInformation = layoutInformation;
@@ -59,9 +67,14 @@
     
     CGFloat spacedHeight = [self.layoutDataSource averageItemSize].height + _interItemSpacing;
     CGFloat width = [self.layoutDataSource averageItemSize].width + self.insets.left + self.insets.right;
+    CGFloat headerHeight = [self.layoutDataSource headerSize].height;
     
-    NSInteger numItems = [self.collectionView numberOfItemsInSection:0];
-    CGFloat height = numItems * (spacedHeight + _insets.top + _insets.bottom);
+    NSInteger numItems = 0;
+    NSInteger numSections = [self.collectionView numberOfSections];
+    for(NSInteger section = 0; section < numSections; section++) {
+        numItems += [self.collectionView numberOfItemsInSection:section];
+    }
+    CGFloat height = numItems * (spacedHeight + _insets.top + _insets.bottom) + numSections * headerHeight;
     return CGSizeMake(width, height);
 }
 
@@ -90,48 +103,31 @@
     if (!attributes) {
         CGFloat centerY = ([self.layoutDataSource sizeForIndexPath:indexPath].height + _interItemSpacing)/2;
         CGFloat height = [self.layoutDataSource sizeForIndexPath:indexPath].height + _interItemSpacing;
-        
+        CGFloat multiplier = (indexPath.row+1)*(indexPath.section+1);
         attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
         attributes.size = [self.layoutDataSource sizeForIndexPath:indexPath];
-        
-        CGFloat multiplier = indexPath.row;
         attributes.center = CGPointMake(160, centerY+height*multiplier);
     }
     return attributes;
 }
 
-//-(UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
-//{
-//    if(QUICKDEBUG) NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
-//    
-//    CGFloat centerY = [self.layoutDataSource totalQuestionSize].height/2;
-//    CGFloat height = [self.layoutDataSource totalQuestionSize].height;
-//    CGFloat multiplier = indexPath.row;
-//    if ([kind isEqualToString:@"Title"]) {
-//        UICollectionViewLayoutAttributes *titleAttributes = [[self.layoutInformation objectForKey:@"titleInfo"] objectForKey:indexPath];
-//        if (!titleAttributes) {
-//            CGFloat offset = [self.layoutDataSource itemSize].height/2+[self.layoutDataSource titleSize].height/2;
-//            titleAttributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:@"Title" withIndexPath:indexPath];
-//            titleAttributes.size = [self.layoutDataSource titleSize];
-//            titleAttributes.center = CGPointMake(160, centerY+height*multiplier-offset);
-//            titleAttributes.zIndex = 1;
-//            titleAttributes.alpha = 0.7;
-//        }
-//        return titleAttributes;
-//    }
-//    else if ([kind isEqualToString:@"Response"]) {
-//        UICollectionViewLayoutAttributes *responseAttributes = [[self.layoutInformation objectForKey:@"responseInfo"] objectForKey:indexPath];
-//        if (!responseAttributes) {
-//            CGFloat offset = [self.layoutDataSource itemSize].height/2+[self.layoutDataSource responseSize].height/2;
-//            responseAttributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:@"Response" withIndexPath:indexPath];
-//            responseAttributes.size = [self.layoutDataSource responseSize];
-//            responseAttributes.center = CGPointMake(160, centerY+height*multiplier+offset);
-//            responseAttributes.zIndex = 2;
-//            responseAttributes.alpha = 0.7;
-//        }
-//        return responseAttributes;
-//    }
-//    return nil;
-//}
+-(UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    if(QUICKDEBUG) NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
+    
+    
+    UICollectionViewLayoutAttributes *attributes = [[self.layoutInformation objectForKey:@"headerInfo"] objectForKey:indexPath];
+    if (!attributes) {
+        CGFloat centerY = ([self.layoutDataSource headerSize].height + _interItemSpacing)/2;
+        CGFloat height = [self.layoutDataSource headerSize].height + _interItemSpacing;
+        CGFloat multiplier = (indexPath.row+1)*(indexPath.section+1);
+
+        attributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:@"Header" withIndexPath:indexPath];
+        attributes.size = [self.layoutDataSource headerSize];
+        attributes.center = CGPointMake(160, centerY+height*multiplier);
+    }
+    return attributes;
+
+ }
 
 @end

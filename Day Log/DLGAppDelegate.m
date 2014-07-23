@@ -8,7 +8,7 @@
 
 #import "DLGAppDelegate.h"
 #import "DLGRouter.h"
-
+// for testing / temp
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import "DLGCoreDataHelper.h"
@@ -25,7 +25,7 @@
 static BOOL isRunningTests(void) __attribute__((const));
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+{    
     if (isRunningTests()) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
