@@ -16,7 +16,11 @@
 - (void)setupCoreData;
 - (void)saveContext;
 -(void)setupCoreDataForTesting;
+
+-(NSArray *)fetchAllManagedObjects;
+-(void)deleteAllManagedObjects;
 -(void)deleteAllObjectsForEntity:(NSString *)entityDescription;
+
 -(NSArray *)allEntityNames;
 
 @end

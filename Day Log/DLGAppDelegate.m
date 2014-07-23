@@ -7,15 +7,49 @@
 //
 
 #import "DLGAppDelegate.h"
+#import "DLGRouter.h"
+
+#import <objc/runtime.h>
+#import <objc/message.h>
+#import "DLGCoreDataHelper.h"
+
+@interface DLGAppDelegate ()
+
+@property (nonatomic) DLGRouter *router;
+
+@end
+
 
 @implementation DLGAppDelegate
 
+static BOOL isRunningTests(void) __attribute__((const));
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    if (isRunningTests()) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            Method orig = class_getInstanceMethod([DLGCoreDataHelper class], @selector(setupCoreData));
+            Method new = class_getInstanceMethod([DLGCoreDataHelper class], @selector(setupCoreDataForTesting));
+            method_exchangeImplementations(orig, new);
+        });
+    }
+
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [self.window makeKeyAndVisible];
+    self.router = [[DLGRouter alloc]initWithWindow:self.window];
     return YES;
 }
-							
+
+static BOOL isRunningTests(void)
+{
+    NSDictionary* environment = [[NSProcessInfo processInfo] environment];
+    NSString* injectBundle = environment[@"XCInjectBundle"];
+    return [[injectBundle pathExtension] isEqualToString:@"xctest"];
+}
+
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

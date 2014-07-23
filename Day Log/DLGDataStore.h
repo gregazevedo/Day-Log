@@ -1,5 +1,5 @@
 //
-//  DLGDataSource.h
+//  DLGDataStore.h
 //  Day Log
 //
 //  Created by Greg Azevedo on 7/22/14.
@@ -7,13 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DLGViewModel.h"
 
-@interface DLGDataSource : NSObject
+@class LogEntry;
 
-+(DLGDataSource *)data;
-
--(void)insertNewEntryWithDictionary:(NSDictionary *)info;
+@interface DLGDataStore : NSObject <DLGViewModel, DLGLayoutModel>
 
 @property (nonatomic) NSMutableArray *logEntries;
+
+-(LogEntry *)insertNewDefaultEntryForToday;
+-(void)removeEntry:(LogEntry *)entry;
 
 @end

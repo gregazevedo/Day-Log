@@ -8,12 +8,10 @@
 
 #import "DLGDataSource.h"
 #import "DLGCoreDataHelper.h"
-#import "LogItem+Helpers.h"
-
-#import "DLGTableViewCell.h"
+#import "LogEntry+Helpers.h"
+#import "DLGCell.h"
 
 @interface DLGDataSource ()
-
 
 @end
 
@@ -35,7 +33,7 @@
 {
     self = [super init];
     if (self) {
-        self.logEntries = [[LogItem allLogs] mutableCopy];
+        self.logEntries = [[LogEntry allLogs] mutableCopy];
     }
     return self;
 }
@@ -43,24 +41,9 @@
 -(void)insertNewEntryWithDictionary:(NSDictionary *)info
 {
     NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
-    
-    LogItem *item = [LogItem insertLogItemFromDictionary:info];
+    LogEntry *item = [LogEntry insertLogEntryFromDictionary:info];
     [self.logEntries addObject:item];
     [[DLGCoreDataHelper data] saveContext];
-}
-
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    DLGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    LogItem *item = [self.logEntries objectAtIndex:indexPath.row];
-    [cell configureForLogItem:item];
-    return cell;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.logEntries.count;
 }
 
 @end

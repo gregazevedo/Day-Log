@@ -7,8 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DLGPresenter.h"
+#import "DLGViewModel.h"
 
-@interface DLGViewController : UIViewController
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@protocol DLGEventHandler <NSObject>
+@end
+
+
+@interface DLGViewController : UIViewController <DLGViewInterface>
+
+@property (nonatomic) DLGPresenter *presenter; //presentaion logic
+@property (nonatomic) id <DLGViewModel, DLGLayoutModel> viewModel; //provides the meat
+
 
 @end

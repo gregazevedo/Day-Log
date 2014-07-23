@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class LogItem;
+@class LogEntry;
 
 @interface Note : NSManagedObject
 
 @property (nonatomic, retain) NSString * contents;
-@property (nonatomic, retain) LogItem *item;
+@property (nonatomic, retain) LogEntry *item;
 
 @end

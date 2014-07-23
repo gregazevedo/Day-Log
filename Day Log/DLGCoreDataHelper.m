@@ -96,6 +96,38 @@ static NSString *storeFilename = @"Day_Log.sqlite";
     [self saveContext];
 }
 
+-(void)deleteAllManagedObjects
+{
+    if(QUICKDEBUG) NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
+    
+    for (NSString *entityName in [self allEntityNames]) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self.context];
+        [fetchRequest setEntity:entity];
+        NSError *error;
+        NSArray *items = [self.context executeFetchRequest:fetchRequest error:&error];
+        for (NSManagedObject *managedObject in items) {
+            [self.context deleteObject:managedObject];
+        }
+    }
+    [self saveContext];
+}
+
+-(NSArray *)fetchAllManagedObjects
+{
+    if(QUICKDEBUG) NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
+    NSMutableArray *allItems = [NSMutableArray array];
+    
+    for (NSString *entityName in [self allEntityNames]) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self.context];
+        [fetchRequest setEntity:entity];
+        NSError *error;
+        [allItems addObjectsFromArray:[self.context executeFetchRequest:fetchRequest error:&error]];
+    }
+    return allItems;
+}
+
 
 - (void)loadStore
 {

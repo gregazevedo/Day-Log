@@ -1,5 +1,5 @@
 //
-//  LogItem.h
+//  LogEntry.h
 //  Day Log
 //
 //  Created by Greg Azevedo on 7/22/14.
@@ -11,12 +11,11 @@
 
 @class Note;
 
-@interface LogItem : NSManagedObject
+@interface LogEntry : NSManagedObject
 
 @property (nonatomic, retain) NSDate * startDate;
-@property (nonatomic, retain) NSNumber * duration;
-@property (nonatomic, retain) NSString * dayOfWeek;
 @property (nonatomic, retain) NSDate * endDate;
+@property (nonatomic, retain) NSNumber * duration;
 @property (nonatomic, retain) Note *note;
 
 @end

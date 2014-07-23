@@ -1,5 +1,5 @@
 //
-//  DLGNewEntryViewController.h
+//  DLGLayout.h
 //  Day Log
 //
 //  Created by Greg Azevedo on 7/22/14.
@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DLGViewModel.h"
 
-@interface DLGNewEntryViewController : UIViewController
+@interface DLGLayout : UICollectionViewLayout
+
+@property (nonatomic) id <DLGLayoutModel> layoutDataSource;
 
 @end
+
