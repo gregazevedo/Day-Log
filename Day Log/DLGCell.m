@@ -7,8 +7,6 @@
 //
 
 #import "DLGCell.h"
-#import "LogEntry+Helpers.h"
-#import "Note.h"
 
 @interface DLGCell ()
 

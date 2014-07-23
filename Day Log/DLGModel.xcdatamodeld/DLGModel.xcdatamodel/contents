@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="LogEntry" representedClassName="LogEntry" syncable="YES">
-        <attribute name="duration" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="endDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="startDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="note" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Note" inverseName="item" inverseEntity="Note" syncable="YES"/>
-    </entity>
     <entity name="Note" representedClassName="Note" syncable="YES">
-        <attribute name="contents" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LogEntry" inverseName="note" inverseEntity="LogEntry" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <elements>
-        <element name="LogEntry" positionX="-54" positionY="-9" width="128" height="105"/>
-        <element name="Note" positionX="-36" positionY="45" width="128" height="73"/>
+        <element name="Note" positionX="-54" positionY="-9" width="128" height="88"/>
     </elements>
 </model>

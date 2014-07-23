@@ -9,13 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "DLGViewModel.h"
 
-@class LogEntry;
-
 @interface DLGDataStore : NSObject <DLGViewModel, DLGLayoutModel>
-
-@property (nonatomic) NSMutableArray *logEntries;
-
--(LogEntry *)insertNewDefaultEntryForToday;
--(void)removeEntry:(LogEntry *)entry;
 
 @end

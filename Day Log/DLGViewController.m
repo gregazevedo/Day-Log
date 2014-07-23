@@ -12,7 +12,9 @@
 #import "DLGLayout.h"
 
 @interface DLGViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UITextViewDelegate>
-
+{
+    CGFloat latestCursorPosition;
+}
 @property (strong, nonatomic) UICollectionView *collectionView;
 
 @end
@@ -26,8 +28,14 @@
 {
     [super loadView];
     self.navigationItem.title = @"Day Log";
-    [self.viewModel loadLogEntries];
+    [self.viewModel loadLatestNotes];
     [self loadCollectionView];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self moveSelectionFromIndexPath:nil toIndexPath:[self.viewModel lastIndex]];
 }
 
 -(void)loadCollectionView
@@ -41,20 +49,6 @@
     self.collectionView.dataSource = self;
     [self.view addSubview:self.collectionView];
     [self.collectionView setAllowsMultipleSelection:NO];
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self.collectionView reloadData];
-}
-
-#pragma mark - VIEW INTERFACE PROTOCOL METHODS
-
--(void)insertNewEntryWithContents:(NSString *)contents atIndexPath:(NSIndexPath *)indexPath
-{
-    [self.collectionView insertItemsAtIndexPaths:@[[self.viewModel lastIndex]]];
-    [self.collectionView scrollToItemAtIndexPath:[self.viewModel lastIndex] atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
 }
 
 #pragma mark - COLLECTION VIEW DATA SOURCE METHODS
@@ -97,13 +91,19 @@
 
 -(void)removeEmptyEntry
 {
-    NSLog(@"removing from selected: %@",[self.collectionView indexPathsForSelectedItems]);
     NSIndexPath *index = [[self.collectionView indexPathsForSelectedItems] firstObject];
     if (index.row > 1) {
+        NSLog(@"removing from selected: %@",[self.collectionView indexPathsForSelectedItems]);
         NSIndexPath *prevIndex = [NSIndexPath indexPathForItem:index.row-1 inSection:index.section];
+        [self moveSelectionFromIndexPath:index toIndexPath:prevIndex];
         [self.viewModel removeEntryAtIndexPath:index];
         [self.collectionView deleteItemsAtIndexPaths:@[index]];
+    } else if (index.row == 1) {
+        NSLog(@"removing from selected: %@",[self.collectionView indexPathsForSelectedItems]);
+        NSIndexPath *prevIndex = [NSIndexPath indexPathForItem:0 inSection:index.section];
         [self moveSelectionFromIndexPath:index toIndexPath:prevIndex];
+        [self.viewModel removeEntryAtIndexPath:index];
+        [self.collectionView deleteItemsAtIndexPaths:@[index]];
     }
 }
 
@@ -122,14 +122,16 @@
     if (toDeselect) {
         DLGCell *oldCell = (DLGCell *)[self.collectionView cellForItemAtIndexPath:toDeselect];
         [self.viewModel updateContentsForIndexPath:toDeselect withContents:oldCell.contents];
-        [oldCell resignFirstResponder];
+        [oldCell.contentsTextView resignFirstResponder];
         [self.collectionView deselectItemAtIndexPath:toDeselect animated:YES];
+        latestCursorPosition = 0;
     }
     if (toSelect) {
         DLGCell *newCell = (DLGCell *)[self.collectionView cellForItemAtIndexPath:toSelect];
         [newCell.contentsTextView becomeFirstResponder];
         [newCell.contentsTextView setDelegate:self];
         [self.collectionView selectItemAtIndexPath:toSelect animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+        latestCursorPosition = [newCell.contentsTextView caretRectForPosition:newCell.contentsTextView.endOfDocument].origin.y;
     }
 }
 
@@ -150,12 +152,23 @@
         return NO;
     }
     const char * _char = [text cStringUsingEncoding:NSUTF8StringEncoding];
-    int isBackSpace = strcmp(_char, "\b");
-    if (isBackSpace == -8 && isCurrentlyEmpty) {
+    int backSpaceInput = strcmp(_char, "\b");
+    if (backSpaceInput == -8 && isCurrentlyEmpty) {
         [self removeEmptyEntry];
         return NO;
     }
     return YES;
+}
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    UITextPosition* pos = textView.endOfDocument;
+    CGRect currentRect = [textView caretRectForPosition:pos];
+    if (currentRect.origin.y > latestCursorPosition) {
+        //new line reached, write your code
+        NSLog(@"new line! latest: %f", latestCursorPosition);
+        latestCursorPosition = currentRect.origin.y;
+    }
 }
 
 @end

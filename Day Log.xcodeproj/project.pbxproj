@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		82B57BFA9CE444F9ADF1B288 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 277D3E90054646239BADBD20 /* libPods.a */; };
-		892DF275197F6B7400BEBC9F /* LogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DF272197F6B7400BEBC9F /* LogEntry.m */; };
-		892DF276197F6B7400BEBC9F /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DF274197F6B7400BEBC9F /* Note.m */; };
+		892DF279197F744400BEBC9F /* Note+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DF278197F744400BEBC9F /* Note+Helpers.m */; };
+		892DF27C197F75BD00BEBC9F /* NSDate+Comparisons.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DF27B197F75BD00BEBC9F /* NSDate+Comparisons.m */; };
+		892DF282197F775C00BEBC9F /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DF281197F775C00BEBC9F /* Note.m */; };
 		89A82FEF197E09B000E3BDF3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A82FEE197E09B000E3BDF3 /* Foundation.framework */; };
 		89A82FF1197E09B000E3BDF3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A82FF0197E09B000E3BDF3 /* CoreGraphics.framework */; };
 		89A82FF3197E09B000E3BDF3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A82FF2197E09B000E3BDF3 /* UIKit.framework */; };
@@ -23,19 +24,12 @@
 		89A83013197E09B000E3BDF3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A82FF2197E09B000E3BDF3 /* UIKit.framework */; };
 		89A8301B197E09B000E3BDF3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89A83019197E09B000E3BDF3 /* InfoPlist.strings */; };
 		89A8302E197EB72300E3BDF3 /* DLGCoreDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8302D197EB72300E3BDF3 /* DLGCoreDataHelper.m */; };
-		89A83031197EB76900E3BDF3 /* DLGDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83030197EB76900E3BDF3 /* DLGDataSource.m */; };
 		89A83034197EB82300E3BDF3 /* DLGModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 89A83032197EB82300E3BDF3 /* DLGModel.xcdatamodeld */; };
-		89A8303A197EB8D000E3BDF3 /* LogEntry+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83039197EB8D000E3BDF3 /* LogEntry+Helpers.m */; };
 		89A8304E197ED5F900E3BDF3 /* DLGNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8304D197ED5F900E3BDF3 /* DLGNavigationController.m */; };
 		89A83051197EDA5F00E3BDF3 /* DLGCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83050197EDA5F00E3BDF3 /* DLGCell.m */; };
-		89A83054197EDB1800E3BDF3 /* DLGPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83053197EDB1800E3BDF3 /* DLGPresenter.m */; };
 		89A83057197EE19200E3BDF3 /* DLGDateHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83056197EE19200E3BDF3 /* DLGDateHeader.m */; };
-		89A8305A197EE23500E3BDF3 /* DLGInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83059197EE23500E3BDF3 /* DLGInteractor.m */; };
 		89A8305D197EE25B00E3BDF3 /* DLGDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8305C197EE25B00E3BDF3 /* DLGDataStore.m */; };
 		89A83060197EE71300E3BDF3 /* DLGRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8305F197EE71300E3BDF3 /* DLGRouter.m */; };
-		89A83062197EF1B800E3BDF3 /* DLGInteractorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83061197EF1B800E3BDF3 /* DLGInteractorTests.m */; };
-		89A83070197F0BCD00E3BDF3 /* DLGPresenterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8306F197F0BCD00E3BDF3 /* DLGPresenterTests.m */; };
-		89A83075197F29E500E3BDF3 /* DLGTestPreloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83072197F0DDF00E3BDF3 /* DLGTestPreloader.m */; };
 		89A83078197F404D00E3BDF3 /* DLGLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83077197F404D00E3BDF3 /* DLGLayout.m */; };
 /* End PBXBuildFile section */
 
@@ -51,10 +45,12 @@
 
 /* Begin PBXFileReference section */
 		277D3E90054646239BADBD20 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		892DF271197F6B7400BEBC9F /* LogEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogEntry.h; sourceTree = "<group>"; };
-		892DF272197F6B7400BEBC9F /* LogEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogEntry.m; sourceTree = "<group>"; };
-		892DF273197F6B7400BEBC9F /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
-		892DF274197F6B7400BEBC9F /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
+		892DF277197F744400BEBC9F /* Note+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Note+Helpers.h"; sourceTree = "<group>"; };
+		892DF278197F744400BEBC9F /* Note+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Note+Helpers.m"; sourceTree = "<group>"; };
+		892DF27A197F75BD00BEBC9F /* NSDate+Comparisons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Comparisons.h"; sourceTree = "<group>"; };
+		892DF27B197F75BD00BEBC9F /* NSDate+Comparisons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Comparisons.m"; sourceTree = "<group>"; };
+		892DF280197F775C00BEBC9F /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
+		892DF281197F775C00BEBC9F /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
 		89A82FEB197E09B000E3BDF3 /* Day Log.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Day Log.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89A82FEE197E09B000E3BDF3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		89A82FF0197E09B000E3BDF3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -74,29 +70,17 @@
 		89A8301A197E09B000E3BDF3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		89A8302C197EB72300E3BDF3 /* DLGCoreDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGCoreDataHelper.h; sourceTree = "<group>"; };
 		89A8302D197EB72300E3BDF3 /* DLGCoreDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGCoreDataHelper.m; sourceTree = "<group>"; };
-		89A8302F197EB76900E3BDF3 /* DLGDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGDataSource.h; sourceTree = "<group>"; };
-		89A83030197EB76900E3BDF3 /* DLGDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGDataSource.m; sourceTree = "<group>"; };
 		89A83033197EB82300E3BDF3 /* DLGModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DLGModel.xcdatamodel; sourceTree = "<group>"; };
-		89A83038197EB8D000E3BDF3 /* LogEntry+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LogEntry+Helpers.h"; sourceTree = "<group>"; };
-		89A83039197EB8D000E3BDF3 /* LogEntry+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LogEntry+Helpers.m"; sourceTree = "<group>"; };
 		89A8304C197ED5F900E3BDF3 /* DLGNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGNavigationController.h; sourceTree = "<group>"; };
 		89A8304D197ED5F900E3BDF3 /* DLGNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGNavigationController.m; sourceTree = "<group>"; };
 		89A8304F197EDA5F00E3BDF3 /* DLGCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGCell.h; sourceTree = "<group>"; };
 		89A83050197EDA5F00E3BDF3 /* DLGCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGCell.m; sourceTree = "<group>"; };
-		89A83052197EDB1800E3BDF3 /* DLGPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGPresenter.h; sourceTree = "<group>"; };
-		89A83053197EDB1800E3BDF3 /* DLGPresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGPresenter.m; sourceTree = "<group>"; };
 		89A83055197EE19200E3BDF3 /* DLGDateHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGDateHeader.h; sourceTree = "<group>"; };
 		89A83056197EE19200E3BDF3 /* DLGDateHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGDateHeader.m; sourceTree = "<group>"; };
-		89A83058197EE23500E3BDF3 /* DLGInteractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGInteractor.h; sourceTree = "<group>"; };
-		89A83059197EE23500E3BDF3 /* DLGInteractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGInteractor.m; sourceTree = "<group>"; };
 		89A8305B197EE25B00E3BDF3 /* DLGDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGDataStore.h; sourceTree = "<group>"; };
 		89A8305C197EE25B00E3BDF3 /* DLGDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGDataStore.m; sourceTree = "<group>"; };
 		89A8305E197EE71300E3BDF3 /* DLGRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGRouter.h; sourceTree = "<group>"; };
 		89A8305F197EE71300E3BDF3 /* DLGRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGRouter.m; sourceTree = "<group>"; };
-		89A83061197EF1B800E3BDF3 /* DLGInteractorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGInteractorTests.m; sourceTree = "<group>"; };
-		89A8306F197F0BCD00E3BDF3 /* DLGPresenterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGPresenterTests.m; sourceTree = "<group>"; };
-		89A83071197F0DDF00E3BDF3 /* DLGTestPreloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGTestPreloader.h; sourceTree = "<group>"; };
-		89A83072197F0DDF00E3BDF3 /* DLGTestPreloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGTestPreloader.m; sourceTree = "<group>"; };
 		89A83074197F1C9100E3BDF3 /* DLGViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLGViewModel.h; sourceTree = "<group>"; };
 		89A83076197F404D00E3BDF3 /* DLGLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGLayout.h; sourceTree = "<group>"; };
 		89A83077197F404D00E3BDF3 /* DLGLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGLayout.m; sourceTree = "<group>"; };
@@ -191,10 +175,6 @@
 		89A83016197E09B000E3BDF3 /* Day LogTests */ = {
 			isa = PBXGroup;
 			children = (
-				89A83071197F0DDF00E3BDF3 /* DLGTestPreloader.h */,
-				89A83072197F0DDF00E3BDF3 /* DLGTestPreloader.m */,
-				89A8306F197F0BCD00E3BDF3 /* DLGPresenterTests.m */,
-				89A83061197EF1B800E3BDF3 /* DLGInteractorTests.m */,
 				89A83017197E09B000E3BDF3 /* Supporting Files */,
 			);
 			path = "Day LogTests";
@@ -212,17 +192,17 @@
 		89A83047197EC7C200E3BDF3 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				89A8302F197EB76900E3BDF3 /* DLGDataSource.h */,
-				89A83030197EB76900E3BDF3 /* DLGDataSource.m */,
+				89A8305B197EE25B00E3BDF3 /* DLGDataStore.h */,
+				89A8305C197EE25B00E3BDF3 /* DLGDataStore.m */,
 				89A8302C197EB72300E3BDF3 /* DLGCoreDataHelper.h */,
 				89A8302D197EB72300E3BDF3 /* DLGCoreDataHelper.m */,
 				89A83032197EB82300E3BDF3 /* DLGModel.xcdatamodeld */,
-				892DF271197F6B7400BEBC9F /* LogEntry.h */,
-				892DF272197F6B7400BEBC9F /* LogEntry.m */,
-				892DF273197F6B7400BEBC9F /* Note.h */,
-				892DF274197F6B7400BEBC9F /* Note.m */,
-				89A83038197EB8D000E3BDF3 /* LogEntry+Helpers.h */,
-				89A83039197EB8D000E3BDF3 /* LogEntry+Helpers.m */,
+				892DF280197F775C00BEBC9F /* Note.h */,
+				892DF281197F775C00BEBC9F /* Note.m */,
+				892DF277197F744400BEBC9F /* Note+Helpers.h */,
+				892DF278197F744400BEBC9F /* Note+Helpers.m */,
+				892DF27A197F75BD00BEBC9F /* NSDate+Comparisons.h */,
+				892DF27B197F75BD00BEBC9F /* NSDate+Comparisons.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -235,12 +215,6 @@
 				89A83007197E09B000E3BDF3 /* DLGViewController.m */,
 				89A83076197F404D00E3BDF3 /* DLGLayout.h */,
 				89A83077197F404D00E3BDF3 /* DLGLayout.m */,
-				89A83052197EDB1800E3BDF3 /* DLGPresenter.h */,
-				89A83053197EDB1800E3BDF3 /* DLGPresenter.m */,
-				89A83058197EE23500E3BDF3 /* DLGInteractor.h */,
-				89A83059197EE23500E3BDF3 /* DLGInteractor.m */,
-				89A8305B197EE25B00E3BDF3 /* DLGDataStore.h */,
-				89A8305C197EE25B00E3BDF3 /* DLGDataStore.m */,
 				89A8304F197EDA5F00E3BDF3 /* DLGCell.h */,
 				89A83050197EDA5F00E3BDF3 /* DLGCell.m */,
 				89A83055197EE19200E3BDF3 /* DLGDateHeader.h */,
@@ -381,22 +355,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89A83075197F29E500E3BDF3 /* DLGTestPreloader.m in Sources */,
 				89A8305D197EE25B00E3BDF3 /* DLGDataStore.m in Sources */,
-				89A83031197EB76900E3BDF3 /* DLGDataSource.m in Sources */,
 				89A83078197F404D00E3BDF3 /* DLGLayout.m in Sources */,
 				89A83008197E09B000E3BDF3 /* DLGViewController.m in Sources */,
 				89A83057197EE19200E3BDF3 /* DLGDateHeader.m in Sources */,
 				89A8304E197ED5F900E3BDF3 /* DLGNavigationController.m in Sources */,
-				89A83054197EDB1800E3BDF3 /* DLGPresenter.m in Sources */,
-				892DF275197F6B7400BEBC9F /* LogEntry.m in Sources */,
-				89A8305A197EE23500E3BDF3 /* DLGInteractor.m in Sources */,
 				89A83034197EB82300E3BDF3 /* DLGModel.xcdatamodeld in Sources */,
+				892DF282197F775C00BEBC9F /* Note.m in Sources */,
 				89A82FFF197E09B000E3BDF3 /* DLGAppDelegate.m in Sources */,
+				892DF27C197F75BD00BEBC9F /* NSDate+Comparisons.m in Sources */,
 				89A82FFB197E09B000E3BDF3 /* main.m in Sources */,
-				892DF276197F6B7400BEBC9F /* Note.m in Sources */,
 				89A83051197EDA5F00E3BDF3 /* DLGCell.m in Sources */,
-				89A8303A197EB8D000E3BDF3 /* LogEntry+Helpers.m in Sources */,
+				892DF279197F744400BEBC9F /* Note+Helpers.m in Sources */,
 				89A8302E197EB72300E3BDF3 /* DLGCoreDataHelper.m in Sources */,
 				89A83060197EE71300E3BDF3 /* DLGRouter.m in Sources */,
 			);
@@ -406,8 +376,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89A83070197F0BCD00E3BDF3 /* DLGPresenterTests.m in Sources */,
-				89A83062197EF1B800E3BDF3 /* DLGInteractorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

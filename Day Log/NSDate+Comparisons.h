@@ -1,18 +1,13 @@
 //
-//  Note.m
+//  NSDate+Comparisons.h
 //  Day Log
 //
 //  Created by Greg Azevedo on 7/23/14.
 //  Copyright (c) 2014 dolodev LLC. All rights reserved.
 //
 
-#import "Note.h"
+#import <Foundation/Foundation.h>
 
-
-@implementation Note
-
-@dynamic date;
-@dynamic text;
-@dynamic time;
+@interface NSDate (Comparisons)
 
 @end

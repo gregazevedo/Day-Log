@@ -7,66 +7,85 @@
 //
 
 #import "DLGDataStore.h"
-#import "LogEntry.h"
-#import "Note.h"
-#import "LogEntry+Helpers.h"
+#import "Note+Helpers.h"
 #import "DLGCoreDataHelper.h"
 
 @interface DLGDataStore ()
 
+@property (nonatomic) NSMutableArray *loadedNotes;
 
 @end
 
 
 @implementation DLGDataStore
 
-#pragma mark - VIEWMODEL METHODS
+#pragma mark - VIEW MODEL METHODS -
 
--(void)loadLogEntries
+#pragma mark FETCH
+
+-(void)loadLatestNotes
 {
-    self.logEntries = [[LogEntry allLogs] mutableCopy];
-    if (self.logEntries.count == 0) {
-        [self insertTutorialLog];
+    self.loadedNotes = [[Note allNotes_Max:50] mutableCopy];
+    if (self.loadedNotes.count == 0) {
+        [self insertTutorialNote];
     }
 }
 
--(void)insertTutorialLog
+-(void)loadMoreNotes_Amount:(NSInteger)amount
 {
-    LogEntry *entry = [LogEntry insertLogEntryFromDictionary:@{@"startDate": [NSDate date], @"endDate":[NSDate date], @"note":@"Welcome to Day Log, please leave your first note!"}];
-    [self.logEntries addObject:entry];
+    
 }
 
 -(NSUInteger)numberOfItemsInSection:(NSUInteger)section
 {
-    return self.logEntries.count;
+    return self.loadedNotes.count;
 }
 
 -(NSString *)contentsForIndexPath:(NSIndexPath *)indexPath
 {
-    LogEntry *entry = [self.logEntries objectAtIndex:indexPath.row];
-    return entry.note.contents;
+    Note *note = [self.loadedNotes objectAtIndex:indexPath.row];
+    return note.text;
 }
 
 -(NSIndexPath *)lastIndex
 {
-    return [NSIndexPath indexPathForItem:self.logEntries.count-1 inSection:0];
+    if (self.loadedNotes.count == 0) {
+        return nil;
+    }
+    if (self.loadedNotes.count == 1) {
+        return [NSIndexPath indexPathForItem:0 inSection:0];
+    }
+    return [NSIndexPath indexPathForItem:self.loadedNotes.count-1 inSection:0];
 }
 
--(void)updateContentsForIndexPath:(NSIndexPath *)indexPath withContents:(NSString *)contents
+#pragma mark  INSERTING
+
+-(void)insertTutorialNote
 {
-    LogEntry *entry = [self.logEntries objectAtIndex:indexPath.row];
-    [entry.note setContents:contents];
+    Note *note = [Note insertNoteWithDate:[NSDate date] andText:@"Welcome to Day Log, leave your first note in a log"];
+    Note *blankNote = [Note insertNoteWithDate:[NSDate date] andText:@""];
+    [self.loadedNotes addObjectsFromArray:@[note, blankNote]];
 }
 
 -(void)insertNewEntryAtIndexPath:(NSIndexPath *)indexPath
 {
-    LogEntry *entry = [LogEntry insertLogEntryFromDictionary:@{@"startDate": [NSDate date], @"endDate":[NSDate date], @"note":@""}];
-    [self.logEntries insertObject:entry atIndex:indexPath.row];
+    Note *note = [Note insertNoteWithDate:[NSDate date] andText:@""];
+    [self.loadedNotes insertObject:note atIndex:indexPath.row];
 }
+
+#pragma mark UPDATING
+
+-(void)updateContentsForIndexPath:(NSIndexPath *)indexPath withContents:(NSString *)contents
+{
+    Note *note = [self.loadedNotes objectAtIndex:indexPath.row];
+    [note setText:contents];
+}
+
+#pragma mark REMOVING
 
 -(void)removeEntryAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.logEntries removeObjectAtIndex:indexPath.row];
+    [self.loadedNotes removeObjectAtIndex:indexPath.row];
 }
 
 -(void)saveChanges
@@ -74,34 +93,18 @@
     [[DLGCoreDataHelper data] saveContext];
 }
 
-#pragma mark - LAYOUT MODEL METHODS
-
+#pragma mark - LAYOUT MODEL METHODS -
 
 -(CGSize)sizeForIndexPath:(NSIndexPath *)indexPath
 {
-    LogEntry *entry = [self.logEntries objectAtIndex:indexPath.row];
-    CGSize cellSize = [entry.note.contents boundingRectWithSize:CGSizeMake(300, 900) options:0 attributes:nil context:nil].size;
+    Note *note = [self.loadedNotes objectAtIndex:indexPath.row];
+    CGSize cellSize = [note.text boundingRectWithSize:CGSizeMake(300, 900) options:0 attributes:nil context:nil].size;
     return CGSizeMake(300, cellSize.height+50);
 }
 
 -(CGSize)averageItemSize
 {
     return CGSizeMake(300, 60);
-}
-
-
-#pragma mark - INTERACTOR METHODS
-
--(LogEntry *)insertNewDefaultEntryForToday
-{
-    LogEntry *entry = [LogEntry insertLogEntryFromDictionary:@{@"startDate": [NSDate date], @"endDate":[NSDate date], @"note":@""}];
-    [self.logEntries addObject:entry];
-    return entry;
-}
-
--(void)removeEntry:(LogEntry *)entry
-{
-    
 }
 
 @end

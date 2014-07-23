@@ -57,7 +57,6 @@
 {
     if(QUICKDEBUG) NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
     
-//    CGSize s = ;
     CGFloat spacedHeight = [self.layoutDataSource averageItemSize].height + _interItemSpacing;
     CGFloat width = [self.layoutDataSource averageItemSize].width + self.insets.left + self.insets.right;
     
@@ -97,7 +96,6 @@
         
         CGFloat multiplier = indexPath.row;
         attributes.center = CGPointMake(160, centerY+height*multiplier);
-        attributes.zIndex = 0;
     }
     return attributes;
 }

@@ -10,7 +10,8 @@
 
 @protocol DLGViewModel <NSObject>
 
--(void)loadLogEntries;
+-(void)loadLatestNotes;
+-(void)loadMoreNotes_Amount:(NSInteger)amount;
 -(NSUInteger)numberOfItemsInSection:(NSUInteger)section;
 -(NSString *)contentsForIndexPath:(NSIndexPath *)indexPath;
 -(NSIndexPath *)lastIndex;

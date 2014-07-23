@@ -7,7 +7,6 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "DLGPresenter.h"
 #import "DLGTestPreloader.h"
 #import "DLGViewController.h"
 #import "DLGInteractor.h"

@@ -10,7 +10,6 @@
 #import "DLGCoreDataHelper.h"
 
 #define DEBUGTHIS 0
-#define QUICKDEBUG 0
 
 @interface DLGCoreDataHelper()
 
