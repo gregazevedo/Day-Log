@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		82B57BFA9CE444F9ADF1B288 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 277D3E90054646239BADBD20 /* libPods.a */; };
+		892DF275197F6B7400BEBC9F /* LogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DF272197F6B7400BEBC9F /* LogEntry.m */; };
+		892DF276197F6B7400BEBC9F /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DF274197F6B7400BEBC9F /* Note.m */; };
 		89A82FEF197E09B000E3BDF3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A82FEE197E09B000E3BDF3 /* Foundation.framework */; };
 		89A82FF1197E09B000E3BDF3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A82FF0197E09B000E3BDF3 /* CoreGraphics.framework */; };
 		89A82FF3197E09B000E3BDF3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A82FF2197E09B000E3BDF3 /* UIKit.framework */; };
@@ -32,8 +34,6 @@
 		89A8305D197EE25B00E3BDF3 /* DLGDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8305C197EE25B00E3BDF3 /* DLGDataStore.m */; };
 		89A83060197EE71300E3BDF3 /* DLGRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8305F197EE71300E3BDF3 /* DLGRouter.m */; };
 		89A83062197EF1B800E3BDF3 /* DLGInteractorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83061197EF1B800E3BDF3 /* DLGInteractorTests.m */; };
-		89A8306B197EF3BE00E3BDF3 /* LogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8306A197EF3BE00E3BDF3 /* LogEntry.m */; };
-		89A8306E197EF3BF00E3BDF3 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8306D197EF3BF00E3BDF3 /* Note.m */; };
 		89A83070197F0BCD00E3BDF3 /* DLGPresenterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8306F197F0BCD00E3BDF3 /* DLGPresenterTests.m */; };
 		89A83075197F29E500E3BDF3 /* DLGTestPreloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83072197F0DDF00E3BDF3 /* DLGTestPreloader.m */; };
 		89A83078197F404D00E3BDF3 /* DLGLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A83077197F404D00E3BDF3 /* DLGLayout.m */; };
@@ -51,6 +51,10 @@
 
 /* Begin PBXFileReference section */
 		277D3E90054646239BADBD20 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		892DF271197F6B7400BEBC9F /* LogEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogEntry.h; sourceTree = "<group>"; };
+		892DF272197F6B7400BEBC9F /* LogEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogEntry.m; sourceTree = "<group>"; };
+		892DF273197F6B7400BEBC9F /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
+		892DF274197F6B7400BEBC9F /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
 		89A82FEB197E09B000E3BDF3 /* Day Log.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Day Log.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89A82FEE197E09B000E3BDF3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		89A82FF0197E09B000E3BDF3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -90,10 +94,6 @@
 		89A8305E197EE71300E3BDF3 /* DLGRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGRouter.h; sourceTree = "<group>"; };
 		89A8305F197EE71300E3BDF3 /* DLGRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGRouter.m; sourceTree = "<group>"; };
 		89A83061197EF1B800E3BDF3 /* DLGInteractorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGInteractorTests.m; sourceTree = "<group>"; };
-		89A83069197EF3BE00E3BDF3 /* LogEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogEntry.h; path = ../LogEntry.h; sourceTree = "<group>"; };
-		89A8306A197EF3BE00E3BDF3 /* LogEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogEntry.m; path = ../LogEntry.m; sourceTree = "<group>"; };
-		89A8306C197EF3BF00E3BDF3 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Note.h; path = ../Note.h; sourceTree = "<group>"; };
-		89A8306D197EF3BF00E3BDF3 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Note.m; path = ../Note.m; sourceTree = "<group>"; };
 		89A8306F197F0BCD00E3BDF3 /* DLGPresenterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGPresenterTests.m; sourceTree = "<group>"; };
 		89A83071197F0DDF00E3BDF3 /* DLGTestPreloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGTestPreloader.h; sourceTree = "<group>"; };
 		89A83072197F0DDF00E3BDF3 /* DLGTestPreloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGTestPreloader.m; sourceTree = "<group>"; };
@@ -217,10 +217,10 @@
 				89A8302C197EB72300E3BDF3 /* DLGCoreDataHelper.h */,
 				89A8302D197EB72300E3BDF3 /* DLGCoreDataHelper.m */,
 				89A83032197EB82300E3BDF3 /* DLGModel.xcdatamodeld */,
-				89A8306C197EF3BF00E3BDF3 /* Note.h */,
-				89A8306D197EF3BF00E3BDF3 /* Note.m */,
-				89A83069197EF3BE00E3BDF3 /* LogEntry.h */,
-				89A8306A197EF3BE00E3BDF3 /* LogEntry.m */,
+				892DF271197F6B7400BEBC9F /* LogEntry.h */,
+				892DF272197F6B7400BEBC9F /* LogEntry.m */,
+				892DF273197F6B7400BEBC9F /* Note.h */,
+				892DF274197F6B7400BEBC9F /* Note.m */,
 				89A83038197EB8D000E3BDF3 /* LogEntry+Helpers.h */,
 				89A83039197EB8D000E3BDF3 /* LogEntry+Helpers.m */,
 			);
@@ -387,14 +387,14 @@
 				89A83078197F404D00E3BDF3 /* DLGLayout.m in Sources */,
 				89A83008197E09B000E3BDF3 /* DLGViewController.m in Sources */,
 				89A83057197EE19200E3BDF3 /* DLGDateHeader.m in Sources */,
-				89A8306B197EF3BE00E3BDF3 /* LogEntry.m in Sources */,
 				89A8304E197ED5F900E3BDF3 /* DLGNavigationController.m in Sources */,
 				89A83054197EDB1800E3BDF3 /* DLGPresenter.m in Sources */,
-				89A8306E197EF3BF00E3BDF3 /* Note.m in Sources */,
+				892DF275197F6B7400BEBC9F /* LogEntry.m in Sources */,
 				89A8305A197EE23500E3BDF3 /* DLGInteractor.m in Sources */,
 				89A83034197EB82300E3BDF3 /* DLGModel.xcdatamodeld in Sources */,
 				89A82FFF197E09B000E3BDF3 /* DLGAppDelegate.m in Sources */,
 				89A82FFB197E09B000E3BDF3 /* main.m in Sources */,
+				892DF276197F6B7400BEBC9F /* Note.m in Sources */,
 				89A83051197EDA5F00E3BDF3 /* DLGCell.m in Sources */,
 				89A8303A197EB8D000E3BDF3 /* LogEntry+Helpers.m in Sources */,
 				89A8302E197EB72300E3BDF3 /* DLGCoreDataHelper.m in Sources */,
