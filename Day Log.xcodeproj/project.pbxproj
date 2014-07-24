@@ -14,6 +14,8 @@
 		892DF2941980326600BEBC9F /* Day+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DF2931980326600BEBC9F /* Day+Helpers.m */; };
 		892DF2961980409000BEBC9F /* Day.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DF2901980300500BEBC9F /* Day.m */; };
 		892DF299198050F100BEBC9F /* Day+OrderedSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DF298198050F100BEBC9F /* Day+OrderedSet.m */; };
+		897CAB8519809DAB0084C12E /* DLGEventHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 897CAB8419809DAB0084C12E /* DLGEventHandler.m */; };
+		897CAB8A1980A50A0084C12E /* DLGInsertTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 897CAB891980A50A0084C12E /* DLGInsertTests.m */; };
 		89A82FEF197E09B000E3BDF3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A82FEE197E09B000E3BDF3 /* Foundation.framework */; };
 		89A82FF1197E09B000E3BDF3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A82FF0197E09B000E3BDF3 /* CoreGraphics.framework */; };
 		89A82FF3197E09B000E3BDF3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A82FF2197E09B000E3BDF3 /* UIKit.framework */; };
@@ -60,6 +62,11 @@
 		892DF2931980326600BEBC9F /* Day+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Day+Helpers.m"; sourceTree = "<group>"; };
 		892DF297198050F100BEBC9F /* Day+OrderedSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Day+OrderedSet.h"; sourceTree = "<group>"; };
 		892DF298198050F100BEBC9F /* Day+OrderedSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Day+OrderedSet.m"; sourceTree = "<group>"; };
+		897CAB8319809DAB0084C12E /* DLGEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGEventHandler.h; sourceTree = "<group>"; };
+		897CAB8419809DAB0084C12E /* DLGEventHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGEventHandler.m; sourceTree = "<group>"; };
+		897CAB8619809F960084C12E /* DLGEventDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLGEventDelegate.h; sourceTree = "<group>"; };
+		897CAB891980A50A0084C12E /* DLGInsertTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGInsertTests.m; sourceTree = "<group>"; };
+		897CAB8B1980AED40084C12E /* DLGInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLGInterface.h; sourceTree = "<group>"; };
 		89A82FEB197E09B000E3BDF3 /* Day Log.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Day Log.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89A82FEE197E09B000E3BDF3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		89A82FF0197E09B000E3BDF3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -184,6 +191,7 @@
 		89A83016197E09B000E3BDF3 /* Day LogTests */ = {
 			isa = PBXGroup;
 			children = (
+				897CAB891980A50A0084C12E /* DLGInsertTests.m */,
 				89A83017197E09B000E3BDF3 /* Supporting Files */,
 			);
 			path = "Day LogTests";
@@ -226,8 +234,12 @@
 			isa = PBXGroup;
 			children = (
 				89A83074197F1C9100E3BDF3 /* DLGViewModel.h */,
+				897CAB8B1980AED40084C12E /* DLGInterface.h */,
+				897CAB8619809F960084C12E /* DLGEventDelegate.h */,
 				89A83006197E09B000E3BDF3 /* DLGViewController.h */,
 				89A83007197E09B000E3BDF3 /* DLGViewController.m */,
+				897CAB8319809DAB0084C12E /* DLGEventHandler.h */,
+				897CAB8419809DAB0084C12E /* DLGEventHandler.m */,
 				89A83076197F404D00E3BDF3 /* DLGLayout.h */,
 				89A83077197F404D00E3BDF3 /* DLGLayout.m */,
 				89A8304F197EDA5F00E3BDF3 /* DLGCell.h */,
@@ -381,6 +393,7 @@
 				89A83034197EB82300E3BDF3 /* DLGModel.xcdatamodeld in Sources */,
 				892DF28E1980300500BEBC9F /* Note.m in Sources */,
 				892DF28519802AC400BEBC9F /* NSDate+Utility.m in Sources */,
+				897CAB8519809DAB0084C12E /* DLGEventHandler.m in Sources */,
 				89A82FFF197E09B000E3BDF3 /* DLGAppDelegate.m in Sources */,
 				89A82FFB197E09B000E3BDF3 /* main.m in Sources */,
 				89A83051197EDA5F00E3BDF3 /* DLGCell.m in Sources */,
@@ -394,6 +407,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				897CAB8A1980A50A0084C12E /* DLGInsertTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

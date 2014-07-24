@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "DLGViewModel.h"
 
+@class Day;
+
 @interface DLGDataStore : NSObject <DLGViewModel, DLGLayoutModel>
+
+@property (nonatomic) NSMutableArray *loadedDays;
+@property (nonatomic) Day *today;
 
 @end

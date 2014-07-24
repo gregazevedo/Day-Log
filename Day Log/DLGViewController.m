@@ -15,7 +15,8 @@
 {
     CGFloat latestCursorPosition;
 }
-@property (strong, nonatomic) UICollectionView *collectionView;
+@property (nonatomic) UICollectionView *collectionView;
+@property (nonatomic) DLGLayout *layout;
 
 @end
 
@@ -27,29 +28,28 @@
 -(void)loadView
 {
     [super loadView];
-    self.navigationItem.title = @"Day Log";
+    [self.navigationItem setTitle:@"Day Log"];
     [self.viewModel fetchNotesForToday];
-//    [self.viewModel loadLatestNotes];
     [self loadCollectionView];
+}
+
+-(void)loadCollectionView
+{
+    [self setLayout:[[DLGLayout alloc] initWithDataSource:self.viewModel]];
+    [self setCollectionView:[[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:self.layout]];
+    [self.collectionView registerClass:[DLGCell class] forCellWithReuseIdentifier:@"Cell"];
+    [self.collectionView registerClass:[DLGDateHeader class] forSupplementaryViewOfKind:@"Header" withReuseIdentifier:@"Header"];
+    [self.collectionView setDelegate:self];
+    [self.collectionView setDataSource:self];
+    [self.collectionView setAllowsMultipleSelection:NO];
+    [self.collectionView setAlwaysBounceVertical:YES];
+    [self.view addSubview:self.collectionView];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self moveSelectionFromIndexPath:nil toIndexPath:[self.viewModel lastIndex]];
-}
-
--(void)loadCollectionView
-{
-    DLGLayout *layout = [DLGLayout new];
-    layout.layoutDataSource = self.viewModel;
-    self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.frame collectionViewLayout:layout];
-    [self.collectionView registerClass:[DLGCell class] forCellWithReuseIdentifier:@"Cell"];
-    [self.collectionView registerClass:[DLGDateHeader class] forSupplementaryViewOfKind:@"Header" withReuseIdentifier:@"Header"];
-    self.collectionView.delegate = self;
-    self.collectionView.dataSource = self;
-    [self.view addSubview:self.collectionView];
-    [self.collectionView setAllowsMultipleSelection:NO];
+    [self selectItemAtIndexPath:[self.viewModel lastIndex]];
 }
 
 #pragma mark - COLLECTION VIEW DATA SOURCE METHODS
@@ -69,7 +69,7 @@
 -(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
     DLGDateHeader *header = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Header" forIndexPath:indexPath];
-    header.title = @"yayaayay";
+    header.title = [self.viewModel titleForHeaderAtIndexPath:indexPath];
     return header;
 }
 
@@ -82,67 +82,86 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self moveSelectionFromIndexPath:nil toIndexPath:indexPath];
+    [self selectItemAtIndexPath:indexPath];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self moveSelectionFromIndexPath:indexPath toIndexPath:nil];
- }
+    [self deselectItemAtIndexPath:indexPath];
+}
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    UICollectionView *cv = (UICollectionView *)scrollView;
-    NSIndexPath *indexPath = [[cv indexPathsForSelectedItems] firstObject];
-    [self moveSelectionFromIndexPath:indexPath toIndexPath:nil];
-}
-
--(void)removeEmptyEntry
-{
-    NSIndexPath *index = [[self.collectionView indexPathsForSelectedItems] firstObject];
-    if (index.row > 0) {
-        NSLog(@"removing from selected: %@",[self.collectionView indexPathsForSelectedItems]);
-        NSIndexPath *prevIndex = [NSIndexPath indexPathForItem:index.row-1 inSection:index.section];
-        [self moveSelectionFromIndexPath:index toIndexPath:prevIndex];
-        [self.viewModel removeEntryAtIndexPath:index];
-        [self.collectionView deleteItemsAtIndexPaths:@[index]];
+    if (self.selectedIndexPath) {
+        [self deselectItemAtIndexPath:self.selectedIndexPath];
     }
-//    else if (index.row == 1) {
-//        NSLog(@"removing from selected: %@",[self.collectionView indexPathsForSelectedItems]);
-//        NSIndexPath *prevIndex = [NSIndexPath indexPathForItem:0 inSection:index.section];
-//        [self moveSelectionFromIndexPath:index toIndexPath:prevIndex];
-//        [self.viewModel removeEntryAtIndexPath:index];
-//        [self.collectionView deleteItemsAtIndexPaths:@[index]];
-//    }
 }
 
--(void)insertNewEntry
+#pragma mark - INTERFACE METHODS
+
+-(void)selectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"inserting from selected: %@",[self.collectionView indexPathsForSelectedItems]);
-    NSIndexPath *index = [[self.collectionView indexPathsForSelectedItems] firstObject];
-    NSIndexPath *nextIndex = [NSIndexPath indexPathForItem:index.row+1 inSection:index.section];
-    [self.viewModel insertNewEntryAtIndexPath:nextIndex];
-    [self.collectionView insertItemsAtIndexPaths:@[nextIndex]];
-    [self moveSelectionFromIndexPath:index toIndexPath:nextIndex];
+    DLGCell *newCell = (DLGCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+    if (!newCell || [indexPath isEqual:self.selectedIndexPath]) {
+        return;
+    }
+    [self deselectItemAtIndexPath:self.selectedIndexPath];
+    [newCell.contentsTextView becomeFirstResponder];
+    [newCell.contentsTextView setDelegate:self];
+    [self.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+    latestCursorPosition = [newCell.contentsTextView caretRectForPosition:newCell.contentsTextView.endOfDocument].origin.y;
+    [self.layout transitionToEditCellLayout];
 }
 
--(void)moveSelectionFromIndexPath:(NSIndexPath *)toDeselect toIndexPath:(NSIndexPath *)toSelect
+-(void)deselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (toDeselect) {
-        DLGCell *oldCell = (DLGCell *)[self.collectionView cellForItemAtIndexPath:toDeselect];
-        [self.viewModel updateContentsForIndexPath:toDeselect withContents:oldCell.contents];
+    DLGCell *oldCell = (DLGCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+    if (oldCell) {
+        [self.viewModel updateContentsForIndexPath:indexPath withContents:oldCell.contents];
         [self.viewModel saveChanges];
         [oldCell.contentsTextView resignFirstResponder];
-        [self.collectionView deselectItemAtIndexPath:toDeselect animated:YES];
+        [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
         latestCursorPosition = 0;
+        [self.layout transitionToBrowsingLayout];
     }
-    if (toSelect) {
-        DLGCell *newCell = (DLGCell *)[self.collectionView cellForItemAtIndexPath:toSelect];
-        [newCell.contentsTextView becomeFirstResponder];
-        [newCell.contentsTextView setDelegate:self];
-        [self.collectionView selectItemAtIndexPath:toSelect animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
-        latestCursorPosition = [newCell.contentsTextView caretRectForPosition:newCell.contentsTextView.endOfDocument].origin.y;
+}
+
+-(NSIndexPath *)selectedIndexPath
+{
+    return [[self.collectionView indexPathsForSelectedItems] firstObject];
+}
+
+-(NSIndexPath *)nextIndexPath
+{
+    if (!self.selectedIndexPath) {
+        NSLog(@"Bad Access - no selected index path");
+        return nil;
     }
+    NSIndexPath *nextIndexPath = [NSIndexPath indexPathForItem:self.selectedIndexPath.row+1 inSection:self.selectedIndexPath.section];
+    if (![self.collectionView cellForItemAtIndexPath:nextIndexPath]) {
+        [self.viewModel insertNewEntryAtIndexPath:nextIndexPath];
+        [self.collectionView insertItemsAtIndexPaths:@[nextIndexPath]];
+    }
+    return nextIndexPath;
+}
+
+-(NSIndexPath *)previousIndexPath
+{
+    if (!self.selectedIndexPath) {
+        NSLog(@"Bad Access - no selected index path");
+        return nil;
+    }
+    if (self.selectedIndexPath.row == 0) {
+        NSLog(@"No previous to first cell of section");
+        return self.selectedIndexPath;
+    }
+    NSIndexPath *previousIndexPath = [NSIndexPath indexPathForItem:self.selectedIndexPath.row-1 inSection:self.selectedIndexPath.section];
+    DLGCell *curCell = (DLGCell *)[self.collectionView cellForItemAtIndexPath:previousIndexPath];
+    if ([curCell.contents isEqualToString:@""]) {
+        [self.viewModel removeEntryAtIndexPath:self.selectedIndexPath];
+        [self.collectionView deleteItemsAtIndexPaths:@[self.selectedIndexPath]];
+    }
+    return previousIndexPath;
 }
 
 #pragma mark - TEXT VIEW DELEGATE
@@ -151,20 +170,17 @@
 {
     BOOL newLineInput = [text isEqualToString:@"\n"];
     BOOL isCurrentlyEmpty = [textView.text isEqualToString:@""];
-    
+    BOOL backspaceInput = strcmp([text cStringUsingEncoding:NSUTF8StringEncoding], "\b") == -8 ? YES : NO;
     if (newLineInput && isCurrentlyEmpty) {
-        NSIndexPath *index = [[self.collectionView indexPathsForSelectedItems] firstObject];
-        [self moveSelectionFromIndexPath:index toIndexPath:nil];
+        [self deselectItemAtIndexPath:self.selectedIndexPath];
         return NO;
     }
     if (newLineInput && !isCurrentlyEmpty) {
-        [self insertNewEntry];
+        [self selectItemAtIndexPath:[self nextIndexPath]];
         return NO;
     }
-    const char * _char = [text cStringUsingEncoding:NSUTF8StringEncoding];
-    int backSpaceInput = strcmp(_char, "\b");
-    if (backSpaceInput == -8 && isCurrentlyEmpty) {
-        [self removeEmptyEntry];
+    if (backspaceInput && isCurrentlyEmpty) {
+        [self selectItemAtIndexPath:[self previousIndexPath]];
         return NO;
     }
     return YES;
@@ -175,7 +191,6 @@
     UITextPosition* pos = textView.endOfDocument;
     CGRect currentRect = [textView caretRectForPosition:pos];
     if (currentRect.origin.y > latestCursorPosition) {
-        //new line reached, write your code
         NSLog(@"new line! latest: %f", latestCursorPosition);
         latestCursorPosition = currentRect.origin.y;
     }

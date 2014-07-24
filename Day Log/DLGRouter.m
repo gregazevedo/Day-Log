@@ -7,15 +7,8 @@
 //
 
 #import "DLGRouter.h"
-#import "DLGNavigationController.h"
-#import "DLGViewController.h"
-#import "DLGDataStore.h"
 
 @interface DLGRouter ()
-
-@property (nonatomic) DLGNavigationController *navigationController;
-@property (nonatomic) DLGViewController *viewController;
-@property (nonatomic) DLGDataStore *dataStore;
 
 @end
 
@@ -26,7 +19,9 @@
     if (self = [super init]) {
         self.dataStore = [DLGDataStore new];
         self.viewController = [DLGViewController new];
+        self.eventHandler = [DLGEventHandler new];
         self.viewController.viewModel = self.dataStore;
+        self.viewController.eventHandler = self.eventHandler;
         self.navigationController = [[DLGNavigationController alloc]initWithRootViewController:self.viewController];
         window.rootViewController = self.navigationController;
     }

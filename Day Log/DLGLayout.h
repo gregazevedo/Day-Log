@@ -11,7 +11,9 @@
 
 @interface DLGLayout : UICollectionViewLayout
 
-@property (nonatomic) id <DLGLayoutModel> layoutDataSource;
+-(DLGLayout *)initWithDataSource:(id<DLGLayoutModel>)dataSource;
+-(void)transitionToEditCellLayout;
+-(void)transitionToBrowsingLayout;
 
 @end
 

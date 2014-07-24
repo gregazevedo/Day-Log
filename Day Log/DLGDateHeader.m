@@ -21,8 +21,10 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.titleLabel = [[UILabel alloc]initWithFrame:self.bounds];
+        self.titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
+        [self.titleLabel setTextAlignment:NSTextAlignmentCenter];
         [self addSubview:self.titleLabel];
+        self.backgroundColor = [UIColor yellowColor];
     }
     return self;
 }

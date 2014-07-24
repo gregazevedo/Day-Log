@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "DLGViewModel.h"
+#import "DLGInterface.h"
 
-@interface DLGViewController : UIViewController
+@class DLGEventHandler;
 
-@property (nonatomic) id <DLGViewModel, DLGLayoutModel> viewModel;
+
+@interface DLGViewController : UIViewController <DLGInterface>
+
+@property (nonatomic) id <DLGViewModel> viewModel;
+@property (nonatomic) DLGEventHandler *eventHandler;
 
 @end

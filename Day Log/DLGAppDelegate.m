@@ -15,7 +15,6 @@
 
 @interface DLGAppDelegate ()
 
-@property (nonatomic) DLGRouter *router;
 
 @end
 
