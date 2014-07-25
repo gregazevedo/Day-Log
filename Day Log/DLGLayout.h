@@ -15,6 +15,7 @@
 //-(void)updateForInsertAtIndexPath:(NSIndexPath *)indexPath;
 -(void)updateForSelectionAtIndexPath:(NSIndexPath *)indexPath WithScreenHeight:(CGFloat)height;
 -(void)updateForDeselectionAtIndexPath:(NSIndexPath *)indexPath;
-
+-(void)queueItemRemovalForIndexPath:(NSIndexPath *)indexPath;
+-(void)queueItemInsertionForIndexPath:(NSIndexPath *)indexPath;
 @end
 

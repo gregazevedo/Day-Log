@@ -19,6 +19,7 @@
 //@property (nonatomic) NSMutableDictionary *cellLayoutInfo;
 //@property (nonatomic) NSMutableDictionary *headerLayoutInfo;
 
+//@property (nonatomic) NSIndexPath *indexToScrollTo;
 
 @property (nonatomic) NSMutableDictionary *currentCellAttributes;
 @property (nonatomic) NSMutableDictionary *cachedCellAttributes;
@@ -26,6 +27,8 @@
 @property (nonatomic) NSMutableDictionary *currentHeaderAttributes;
 @property (nonatomic) NSMutableDictionary *cachedHeaderAttributes;
 
+@property (nonatomic, strong) NSMutableArray *indexPathsToBatchRemove;
+@property (nonatomic, strong) NSMutableArray *indexPathsToBatchInsert;
 
 
 @property (nonatomic, strong) NSMutableArray *insertedIndexPaths;
@@ -88,11 +91,8 @@
 
 -(UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-//    UICollectionViewLayoutAttributes *attributes = [self.currentCellAttributes objectForKey:indexPath];
-//    if (!attributes) {
-//        attributes = [self setCellForIndexPath:indexPath];
-//    }
-//    NSLog(@"attributes for:%@\n %@\n %@\n",[self printIndex:indexPath],[self printRect:attributes.frame], [self printCenter:attributes.center]);
+    if(QUICKDEBUG) NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
+
     return [self.currentCellAttributes objectForKey:indexPath];
 }
 
@@ -111,12 +111,9 @@
 
 -(UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewLayoutAttributes *attributes = [self.currentHeaderAttributes objectForKey:indexPath];
-    if (!attributes) {
-        attributes = [self setHeaderForIndexPath:indexPath];
-     }
-    NSLog(@"header attributes:%@\n %@\n %@\n",[self printIndex:indexPath],[self printRect:attributes.frame], [self printCenter:attributes.center]);
-    return attributes;
+    if(QUICKDEBUG) NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
+
+    return [self.currentHeaderAttributes objectForKey:indexPath];
 }
 
 #pragma mark - PREPARATION
@@ -130,6 +127,9 @@
     self.cachedCellAttributes = [[NSMutableDictionary alloc] initWithDictionary:self.currentCellAttributes copyItems:YES];
     self.cachedHeaderAttributes = [[NSMutableDictionary alloc] initWithDictionary:self.currentHeaderAttributes copyItems:YES];
     [self resetAttributes];
+
+    if (!self.currentCellAttributes) {
+    }
 }
 
 -(void)prepareForCollectionViewUpdates:(NSArray *)updateItems
@@ -187,7 +187,8 @@
     for(NSInteger section = 0; section < numSections; section++) {
         numItems += [self.collectionView numberOfItemsInSection:section];
     }
-    CGFloat height = numItems * spacedHeight + numSections * headerHeight;
+    CGFloat navBarHeight = 70;
+    CGFloat height = numItems * spacedHeight + numSections * headerHeight + navBarHeight;
     NSLog(@"total content size: %f %f", width, height);
     return CGSizeMake(width, height);
 }
@@ -199,14 +200,12 @@
     for (NSIndexPath *key in self.currentCellAttributes) {
         UICollectionViewLayoutAttributes *attributes = [self.currentCellAttributes objectForKey:key];
         if(CGRectIntersectsRect(rect, attributes.frame)) {
-            //is in rect
             [allAttributes addObject:attributes];
         }
     }
     for (NSIndexPath *key in self.currentHeaderAttributes) {
         UICollectionViewLayoutAttributes *attributes = [self.currentHeaderAttributes objectForKey:key];
         if(CGRectIntersectsRect(rect, attributes.frame)) {
-            //is in rect
             [allAttributes addObject:attributes];
         }
     }
@@ -215,49 +214,80 @@
 }
 
 
-//inserts
-//prepare layout
-//prepare for updates
-//inital attributes for appearing
+-(void)queueItemRemovalForIndexPath:(NSIndexPath *)indexPath
+{
+    if (!self.indexPathsToBatchRemove) {
+        self.indexPathsToBatchRemove = [NSMutableArray array];
+    }
+    [self.indexPathsToBatchRemove addObject:indexPath];
+    
+//    for (NSIndexPath *key in self.cachedCellAttributes) {
+//        if (key.row >= indexPath.row && key.section == indexPath.section) {
+//            NSIndexPath *followingIndex = [NSIndexPath indexPathForItem:key.row+1 inSection:key.section];
+//            if ([self.collectionView cellForItemAtIndexPath:followingIndex]) {
+//                //shift attribute up by 1
+//                UICollectionViewLayoutAttributes *followingAttr = [self.currentCellAttributes objectForKey:followingIndex];
+//                [self.currentCellAttributes setObject:followingAttr forKey:key];
+//            } else {
+//                //remove the last key
+//                [self.currentCellAttributes removeObjectForKey:followingIndex];
+//            }
+//        }
+//    }
+}
 
-//
-//
-//-(void)updateForInsertAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if(QUICKDEBUG) NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
-//    //inserting shouldnt do much, however typically followed by selection
-//}
+-(void)queueItemInsertionForIndexPath:(NSIndexPath *)indexPath
+{
+    if (!self.indexPathsToBatchInsert) {
+        self.indexPathsToBatchInsert = [NSMutableArray array];
+    }
+    [self.indexPathsToBatchInsert addObject:indexPath];
+    //update main attributes dict
+//    [self.currentCellAttributes setObject:[self setCellForIndexPath:indexPath] forKey:indexPath];
+}
+
+-(void)updateAndScrollToIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewLayoutAttributes *attributes = [[self layoutAttributesForItemAtIndexPath:indexPath] copy];
+
+    if (self.indexPathsToBatchInsert || self.indexPathsToBatchRemove) {
+        [self.collectionView performBatchUpdates:^{
+            [self.collectionView insertItemsAtIndexPaths:self.indexPathsToBatchInsert];
+            [self.collectionView deleteItemsAtIndexPaths:self.indexPathsToBatchRemove];
+            [self.collectionView setContentOffset:CGPointMake(0, attributes.frame.origin.y-100) animated:YES];
+
+        }completion:^(BOOL finished) {
+            self.indexPathsToBatchRemove = nil;
+            self.indexPathsToBatchInsert = nil;
+        }];
+    } else {
+        [self.collectionView setContentOffset:CGPointMake(0, attributes.frame.origin.y-100) animated:YES];
+    }
+}
 
 -(void)updateForSelectionAtIndexPath:(NSIndexPath *)indexPath WithScreenHeight:(CGFloat)height
-{    
-    UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForItemAtIndexPath:indexPath];
-    CGFloat bottomPoint = attributes.frame.origin.y+attributes.frame.size.height;
-    CGFloat spaceUnderBottomPointOfSelectedCell = self.collectionViewContentSize.height - bottomPoint;
-    CGFloat keyboardTop = 350; //~find real
-    CGFloat diff = keyboardTop - spaceUnderBottomPointOfSelectedCell;
-    if (diff > 0) {
-        [self.collectionView setContentInset:UIEdgeInsetsMake(0, 0, diff, 0)];
-    }
-    [self.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionTop];
-    [self invalidateLayout];
+{
+    if(QUICKDEBUG) NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
+    [self updateAndScrollToIndexPath:indexPath];
 }
 
 -(void)updateForDeselectionAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(QUICKDEBUG) NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
+    [self updateAndScrollToIndexPath:indexPath];
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
-    [self.collectionView setContentInset:UIEdgeInsetsMake(50, 0, 80, 0)]; //50 for account for nav bar at top and 80 for some slack at bottom
-    [self invalidateLayout];
 }
 
 //for inserts and initial selection
 //all items pass into here, need to filter
 - (UICollectionViewLayoutAttributes*)initialLayoutAttributesForAppearingItemAtIndexPath:(NSIndexPath *)itemIndexPath
 {
-    if(QUICKDEBUG) NSLog(@"{[]} %@ '%@' row: %i section: %i",[self class],NSStringFromSelector(_cmd),itemIndexPath.row, itemIndexPath.section);
+    if(QUICKDEBUG) NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
     
     UICollectionViewLayoutAttributes *attributes = [super initialLayoutAttributesForAppearingItemAtIndexPath:itemIndexPath];
     
     if ([self.insertedIndexPaths containsObject:itemIndexPath]) {
+        NSLog(@"inserting row: %i sec: %i", itemIndexPath.row, itemIndexPath.section);
         //newly inserted note
         attributes = [[self.currentCellAttributes objectForKey:itemIndexPath] copy];
         attributes.alpha = 0.5;
@@ -275,16 +305,16 @@
 //for deletions and final selections
 -(UICollectionViewLayoutAttributes *)finalLayoutAttributesForDisappearingItemAtIndexPath:(NSIndexPath *)itemIndexPath
 {
-    if(QUICKDEBUG) NSLog(@"{[]} %@ '%@' row: %i section: %i",[self class],NSStringFromSelector(_cmd),itemIndexPath.row, itemIndexPath.section);
-    
+    if(QUICKDEBUG) NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
     UICollectionViewLayoutAttributes *attributes = [super finalLayoutAttributesForDisappearingItemAtIndexPath:itemIndexPath];
-
     if ([self.removedIndexPaths containsObject:itemIndexPath]) {
+        NSLog(@"removing row: %i sec: %i", itemIndexPath.row, itemIndexPath.section);
         //newly inserted note
         attributes = [[self.currentCellAttributes objectForKey:itemIndexPath] copy];
         attributes.center = CGPointMake(-attributes.center.x, attributes.center.y-attributes.size.height);
         //maybe set frame to be on screen frame and set the whole content size to just be the screen when editing
         //make it differetn, expand frame
+        
     }
     return attributes;
 }
@@ -297,6 +327,10 @@
 {
     if(QUICKDEBUG) NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
     [super finalizeCollectionViewUpdates];
+    
+//    UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForItemAtIndexPath:self.indexToScrollTo];
+//    [self.collectionView setContentOffset:CGPointMake(0, attributes.frame.origin.y-100) animated:YES];
+
     
     self.insertedIndexPaths     = nil;
     self.insertedSectionIndices = nil;
@@ -311,6 +345,7 @@
 {
     if(QUICKDEBUG) NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
     NSLog(@"proposed offset: %@", [self printCenter:proposedContentOffset]);
+    
     return [super targetContentOffsetForProposedContentOffset:proposedContentOffset];
 }
 
@@ -324,7 +359,7 @@
 -(BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
 {
     if(QUICKDEBUG) NSLog(@"{[]} %@ '%@'",[self class],NSStringFromSelector(_cmd));
-
+//    return NO;
     return [super shouldInvalidateLayoutForBoundsChange:newBounds];
 }
 
