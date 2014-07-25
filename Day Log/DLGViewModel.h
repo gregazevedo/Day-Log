@@ -11,9 +11,14 @@
 @protocol DLGLayoutModel <NSObject>
 
 -(CGSize)sizeForIndexPath:(NSIndexPath *)indexPath;
+-(CGSize)sizeForSelectedIndexPath;
 -(CGSize)averageItemSize;
 -(CGSize)headerSize;
 -(CGFloat)lineHeight;
+
+-(NSUInteger)numberOfItemsInSection:(NSUInteger)section;
+-(NSUInteger)numberOfSections;
+-(NSUInteger)todaysSection;
 
 @end
 
@@ -29,8 +34,6 @@
 -(void)removeEntryAtIndexPath:(NSIndexPath *)indexPath;
 -(void)saveChanges;
 
--(NSUInteger)numberOfItemsInSection:(NSUInteger)section;
--(NSUInteger)numberOfSections;
 -(NSString *)contentsForIndexPath:(NSIndexPath *)indexPath;
 -(NSString *)titleForHeaderAtIndexPath:(NSIndexPath *)indexPath;
 

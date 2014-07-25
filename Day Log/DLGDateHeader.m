@@ -19,12 +19,12 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
+    if (self) {        
         self.titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
         [self.titleLabel setTextAlignment:NSTextAlignmentCenter];
         [self addSubview:self.titleLabel];
-        self.backgroundColor = [UIColor yellowColor];
+        self.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1];
+        [self.layer setCornerRadius:10];
     }
     return self;
 }

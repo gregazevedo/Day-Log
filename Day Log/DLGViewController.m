@@ -43,6 +43,7 @@
     [self.collectionView setDataSource:self];
     [self.collectionView setAllowsMultipleSelection:NO];
     [self.collectionView setAlwaysBounceVertical:YES];
+    [self.collectionView setBackgroundColor:[UIColor colorWithRed:0.1 green:0.5 blue:0.7 alpha:1]];
     [self.view addSubview:self.collectionView];
 }
 
@@ -80,20 +81,24 @@
 
 #pragma mark - COLLECTION VIEW DELEGATE METHODS
 
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+-(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    //taking over selection responsibility
     [self selectItemAtIndexPath:indexPath];
+    return NO;
 }
 
--(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+-(BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self deselectItemAtIndexPath:indexPath];
+    //taking over selection responsibility
+    [self deselectItemAtIndexPath:indexPath andDone:YES];
+    return NO;
 }
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     if (self.selectedIndexPath) {
-        [self deselectItemAtIndexPath:self.selectedIndexPath];
+        [self deselectItemAtIndexPath:self.selectedIndexPath andDone:YES];
     }
 }
 
@@ -101,29 +106,56 @@
 
 -(void)selectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    DLGCell *newCell = (DLGCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
-    if (!newCell || [indexPath isEqual:self.selectedIndexPath]) {
-        return;
+    NSLog(@"to select index: %@\n selected index: %@", indexPath, self.selectedIndexPath);
+    if ([indexPath isEqual:self.selectedIndexPath]) {
+        return; //already selected
     }
-    [self deselectItemAtIndexPath:self.selectedIndexPath];
+    DLGCell *newCell = (DLGCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+    if (!newCell) {
+        return; //cell doesnt exist or nil index
+    }
+    if (self.selectedIndexPath) {
+        [self deselectItemAtIndexPath:self.selectedIndexPath andDone:NO];
+    }
     [newCell.contentsTextView becomeFirstResponder];
     [newCell.contentsTextView setDelegate:self];
-    [self.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
     latestCursorPosition = [newCell.contentsTextView caretRectForPosition:newCell.contentsTextView.endOfDocument].origin.y;
-    [self.layout transitionToEditCellLayout];
+    
+    [self.layout updateForSelectionAtIndexPath:indexPath WithScreenHeight:self.view.frame.size.height];
 }
 
--(void)deselectItemAtIndexPath:(NSIndexPath *)indexPath
+-(void)deselectItemAtIndexPath:(NSIndexPath *)indexPath andDone:(BOOL)doneEditing
 {
+    NSLog(@"to deselect index: %@\n selected index: %@", indexPath, self.selectedIndexPath);
+
     DLGCell *oldCell = (DLGCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
-    if (oldCell) {
-        [self.viewModel updateContentsForIndexPath:indexPath withContents:oldCell.contents];
-        [self.viewModel saveChanges];
-        [oldCell.contentsTextView resignFirstResponder];
-        [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
-        latestCursorPosition = 0;
-        [self.layout transitionToBrowsingLayout];
+    if (!oldCell) {
+        return;
     }
+    if ([oldCell.contents isEqualToString:@""] && ![indexPath isEqual:[self.viewModel lastIndex]]) {
+        [self removeItemAtIndexPath:indexPath];
+    } else {
+        [self.viewModel updateContentsForIndexPath:indexPath withContents:oldCell.contents];
+    }
+    [oldCell.contentsTextView resignFirstResponder];
+    [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    latestCursorPosition = 0;
+    if (doneEditing) {
+        [self.viewModel saveChanges];
+        [self.layout updateForDeselectionAtIndexPath:indexPath];
+    }
+}
+
+-(void)insertItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.viewModel insertNewEntryAtIndexPath:indexPath];
+    [self.collectionView insertItemsAtIndexPaths:@[indexPath]];
+}
+
+-(void)removeItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.viewModel removeEntryAtIndexPath:indexPath];
+    [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
 }
 
 -(NSIndexPath *)selectedIndexPath
@@ -133,14 +165,13 @@
 
 -(NSIndexPath *)nextIndexPath
 {
-    if (!self.selectedIndexPath) {
-        NSLog(@"Bad Access - no selected index path");
+    DLGCell *cell = (DLGCell *)[self.collectionView cellForItemAtIndexPath:self.selectedIndexPath];
+    if (!cell || [cell.contents isEqualToString:@""]) {
         return nil;
     }
     NSIndexPath *nextIndexPath = [NSIndexPath indexPathForItem:self.selectedIndexPath.row+1 inSection:self.selectedIndexPath.section];
     if (![self.collectionView cellForItemAtIndexPath:nextIndexPath]) {
-        [self.viewModel insertNewEntryAtIndexPath:nextIndexPath];
-        [self.collectionView insertItemsAtIndexPaths:@[nextIndexPath]];
+        [self insertItemAtIndexPath:nextIndexPath];
     }
     return nextIndexPath;
 }
@@ -153,14 +184,13 @@
     }
     if (self.selectedIndexPath.row == 0) {
         NSLog(@"No previous to first cell of section");
-        return self.selectedIndexPath;
+        if ([self.selectedIndexPath isEqual:[self.viewModel lastIndex]]) {
+            return self.selectedIndexPath;
+        }
+        //return next instead
+        return [NSIndexPath indexPathForItem:self.selectedIndexPath.row+1 inSection:self.selectedIndexPath.section];
     }
     NSIndexPath *previousIndexPath = [NSIndexPath indexPathForItem:self.selectedIndexPath.row-1 inSection:self.selectedIndexPath.section];
-    DLGCell *curCell = (DLGCell *)[self.collectionView cellForItemAtIndexPath:previousIndexPath];
-    if ([curCell.contents isEqualToString:@""]) {
-        [self.viewModel removeEntryAtIndexPath:self.selectedIndexPath];
-        [self.collectionView deleteItemsAtIndexPaths:@[self.selectedIndexPath]];
-    }
     return previousIndexPath;
 }
 
@@ -172,7 +202,7 @@
     BOOL isCurrentlyEmpty = [textView.text isEqualToString:@""];
     BOOL backspaceInput = strcmp([text cStringUsingEncoding:NSUTF8StringEncoding], "\b") == -8 ? YES : NO;
     if (newLineInput && isCurrentlyEmpty) {
-        [self deselectItemAtIndexPath:self.selectedIndexPath];
+        [self deselectItemAtIndexPath:self.selectedIndexPath andDone:YES];
         return NO;
     }
     if (newLineInput && !isCurrentlyEmpty) {

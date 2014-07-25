@@ -23,6 +23,7 @@
     DLGDataStore *dataStore;
     DLGViewController *vc;
     DLGAppDelegate *app;
+    NSInteger initalNoteCount;
 }
 @end
 
@@ -36,11 +37,29 @@
     router = app.router;
     dataStore = router.dataStore;
     vc = router.viewController;
+    initalNoteCount = [self currentNoteCount];
+    XCTAssertTrue(initalNoteCount > 0, @"app should start with at least 1 note");
 }
 
 - (void)tearDown
 {
+    while ([self currentNoteCount] > initalNoteCount) {
+        NSInteger cur = [self currentNoteCount];
+        [dataStore removeEntryAtIndexPath:dataStore.lastIndex];
+        XCTAssertTrue([self currentNoteCount] == cur-1, @"should be 1 less per loop, initial: %i, cur: %i", initalNoteCount, [self currentNoteCount]);
+    }
+    XCTAssertTrue([self currentNoteCount] == initalNoteCount, @"test should end with same count as start, initial: %i, cur: %i", initalNoteCount, [self currentNoteCount]);
+
     [super tearDown];
+}
+
+-(NSInteger)currentNoteCount
+{
+    NSInteger count = 0;
+    for (NSInteger section = 0; section < dataStore.numberOfSections; section++) {
+        count += dataStore.numberOfSections * [dataStore numberOfItemsInSection:section];
+    }
+    return count;
 }
 
 -(void)testNewNote
@@ -60,12 +79,21 @@
 
 -(void)testRemovingNewNote
 {
-    NSInteger previousCount = dataStore.today.notes.count;
+    NSInteger initalCount = dataStore.today.notes.count;
+    
     [vc selectItemAtIndexPath:[dataStore lastIndex]];
     [vc selectItemAtIndexPath:[vc nextIndexPath]];
-    
-    NSInteger updatedCount = dataStore.today.notes.count;
-    XCTAssertTrue(updatedCount == previousCount-1, @"should have removed 1 note, prev: %i now: %i", previousCount, updatedCount);
+    NSInteger countByGoingToNext = dataStore.today.notes.count;
+    if ([[dataStore contentsForIndexPath:[vc selectedIndexPath]] isEqualToString:@""]) {
+        XCTAssertTrue(countByGoingToNext == initalCount, @"going to next note from empty last should NOT create new note, prev: %i now: %i", initalCount, countByGoingToNext);
+        XCTAssertNil([vc selectedIndexPath], @"next from empty cell should deselect index: %@", [vc selectedIndexPath]);
+    } else {
+        XCTAssertTrue(countByGoingToNext == initalCount+1, @"going to next note from last should creat new note, prev: %i now: %i", initalCount, countByGoingToNext);
+    }
+
+    [vc selectItemAtIndexPath:[vc previousIndexPath]];
+    NSInteger countByGoingToPrevious = dataStore.today.notes.count;
+    XCTAssertTrue(countByGoingToPrevious == initalCount, @"should have removed 1 note, prev: %i now: %i", initalCount, countByGoingToPrevious);
     
     Day *todayFromArray = [dataStore.loadedDays firstObject];
     Day *today = dataStore.today;

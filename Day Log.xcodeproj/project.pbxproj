@@ -16,6 +16,9 @@
 		892DF299198050F100BEBC9F /* Day+OrderedSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DF298198050F100BEBC9F /* Day+OrderedSet.m */; };
 		897CAB8519809DAB0084C12E /* DLGEventHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 897CAB8419809DAB0084C12E /* DLGEventHandler.m */; };
 		897CAB8A1980A50A0084C12E /* DLGInsertTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 897CAB891980A50A0084C12E /* DLGInsertTests.m */; };
+		897CAB8D198163D40084C12E /* DLGCellSelectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 897CAB8C198163D40084C12E /* DLGCellSelectionTests.m */; };
+		897CAB9019816F9A0084C12E /* DLGTestHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 897CAB8F19816F9A0084C12E /* DLGTestHelpers.m */; };
+		897CAB921981A2B40084C12E /* pasteboard in Resources */ = {isa = PBXBuildFile; fileRef = 897CAB911981A2B40084C12E /* pasteboard */; };
 		89A82FEF197E09B000E3BDF3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A82FEE197E09B000E3BDF3 /* Foundation.framework */; };
 		89A82FF1197E09B000E3BDF3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A82FF0197E09B000E3BDF3 /* CoreGraphics.framework */; };
 		89A82FF3197E09B000E3BDF3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A82FF2197E09B000E3BDF3 /* UIKit.framework */; };
@@ -67,6 +70,10 @@
 		897CAB8619809F960084C12E /* DLGEventDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLGEventDelegate.h; sourceTree = "<group>"; };
 		897CAB891980A50A0084C12E /* DLGInsertTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGInsertTests.m; sourceTree = "<group>"; };
 		897CAB8B1980AED40084C12E /* DLGInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLGInterface.h; sourceTree = "<group>"; };
+		897CAB8C198163D40084C12E /* DLGCellSelectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGCellSelectionTests.m; sourceTree = "<group>"; };
+		897CAB8E19816F9A0084C12E /* DLGTestHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLGTestHelpers.h; sourceTree = "<group>"; };
+		897CAB8F19816F9A0084C12E /* DLGTestHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLGTestHelpers.m; sourceTree = "<group>"; };
+		897CAB911981A2B40084C12E /* pasteboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pasteboard; sourceTree = "<group>"; };
 		89A82FEB197E09B000E3BDF3 /* Day Log.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Day Log.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89A82FEE197E09B000E3BDF3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		89A82FF0197E09B000E3BDF3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -191,7 +198,10 @@
 		89A83016197E09B000E3BDF3 /* Day LogTests */ = {
 			isa = PBXGroup;
 			children = (
+				897CAB8C198163D40084C12E /* DLGCellSelectionTests.m */,
 				897CAB891980A50A0084C12E /* DLGInsertTests.m */,
+				897CAB8E19816F9A0084C12E /* DLGTestHelpers.h */,
+				897CAB8F19816F9A0084C12E /* DLGTestHelpers.m */,
 				89A83017197E09B000E3BDF3 /* Supporting Files */,
 			);
 			path = "Day LogTests";
@@ -246,6 +256,7 @@
 				89A83050197EDA5F00E3BDF3 /* DLGCell.m */,
 				89A83055197EE19200E3BDF3 /* DLGDateHeader.h */,
 				89A83056197EE19200E3BDF3 /* DLGDateHeader.m */,
+				897CAB911981A2B40084C12E /* pasteboard */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -331,6 +342,7 @@
 			files = (
 				89A8300A197E09B000E3BDF3 /* Images.xcassets in Resources */,
 				89A82FF9197E09B000E3BDF3 /* InfoPlist.strings in Resources */,
+				897CAB921981A2B40084C12E /* pasteboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,7 +419,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				897CAB8D198163D40084C12E /* DLGCellSelectionTests.m in Sources */,
 				897CAB8A1980A50A0084C12E /* DLGInsertTests.m in Sources */,
+				897CAB9019816F9A0084C12E /* DLGTestHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

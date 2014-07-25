@@ -39,7 +39,8 @@
 -(NSUInteger)numberOfItemsInSection:(NSUInteger)section
 {
     Day *day = [self.loadedDays objectAtIndex:section];
-    return [day.notes count];
+    NSUInteger count = day.notes.count;
+    return count;
 }
 
 -(NSString *)contentsForIndexPath:(NSIndexPath *)indexPath
@@ -110,6 +111,11 @@
     return CGSizeMake(300, cellSize.height+50);
 }
 
+-(CGSize)sizeForSelectedIndexPath
+{
+    return CGSizeMake(300, 200);
+}
+
 -(CGSize)averageItemSize
 {
     return CGSizeMake(300, 60);
@@ -118,6 +124,20 @@
 -(CGSize)headerSize
 {
     return CGSizeMake(300, 60);
+}
+
+-(NSUInteger)totalNumberOfItems
+{
+    NSUInteger total = 0;
+    for (Day *section in self.loadedDays) {
+        total += section.notes.count;
+    }
+    return total;
+}
+
+-(NSUInteger)todaysSection
+{
+    return 0; //
 }
 
 @end

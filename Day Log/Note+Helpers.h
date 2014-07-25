@@ -16,6 +16,5 @@
 +(NSArray *)allNotesFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
 +(NSArray *)allNotes;
 +(NSArray *)allNotes_Max:(NSUInteger)maxFetchCount;
-+(NSArray *)fetch:(NSInteger)amount notesWithController:(NSFetchedResultsController *)fetcher;
 
 @end

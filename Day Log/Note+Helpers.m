@@ -12,26 +12,6 @@
 
 @implementation Note (Helpers)
 
-+(NSArray *)fetch:(NSInteger)amount notesWithController:(NSFetchedResultsController *)fetcher
-{
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Note"];
-    [request setFetchBatchSize:amount];
-    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"time" ascending:YES]];
-    fetcher = [[NSFetchedResultsController alloc] initWithFetchRequest:request
-                                                               managedObjectContext:[DLGCoreDataHelper data].context
-                                                                 sectionNameKeyPath:@"date"
-                                                                          cacheName:nil];
-    fetcher.delegate = self;
-    [fetcher.managedObjectContext performBlockAndWait:^{
-        NSError *error = nil;
-        if (![fetcher performFetch:&error]) {
-            NSLog(@"Failed to perform fetch: %@", error);
-        }
-    }];
-    return fetcher.fetchedObjects;
-}
-
-
 +(NSArray *)allNotes
 {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Note"];

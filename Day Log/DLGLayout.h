@@ -12,8 +12,9 @@
 @interface DLGLayout : UICollectionViewLayout
 
 -(DLGLayout *)initWithDataSource:(id<DLGLayoutModel>)dataSource;
--(void)transitionToEditCellLayout;
--(void)transitionToBrowsingLayout;
+//-(void)updateForInsertAtIndexPath:(NSIndexPath *)indexPath;
+-(void)updateForSelectionAtIndexPath:(NSIndexPath *)indexPath WithScreenHeight:(CGFloat)height;
+-(void)updateForDeselectionAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
